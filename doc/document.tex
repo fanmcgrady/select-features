@@ -1,0 +1,68 @@
+\documentclass[]{article}
+
+%opening
+\title{}
+\author{}
+\usepackage{CJK}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\begin{CJK*}{GBK}{song}
+\begin{document}
+
+$$y_i=
+\begin{cases}
+r_i& \text{terminal is True}\\
+r_i + \gamma Q'(s_i, a_i)& \text{terminal is False}
+\end{cases}$$
+
+$$Loss = \frac{1}{N}\sum_{i=1}^N(y_i-Q(s_i,a_i))^2$$
+
+\begin{align*}
+R_t &=r_t + \gamma r_{t+1} +\gamma ^2 r_{t+2} +...+ \gamma ^{n-t} r_n\\
+&= r_t +\gamma (r_{t+1} +\gamma r_{t+2} +...+\gamma^{n-t-1} r_n)\\
+&=r_t+\gamma R_{t+1}
+\end{align*}
+
+$$
+P(i) = \frac{p_i}{\sum_{i=1}^Np_i}
+$$
+
+$$
+p_i = r_i+ \gamma Q'(s_i, a_i) - Q(s_i,a_i)
+$$
+
+$$
+\epsilon = 1-\frac{n}{N}
+$$
+
+$$
+P(y_{predict}|X) = max{P(y_0|X), P(y_2|X), P(y_0|X), ...., P(y_m|X)}
+$$
+
+$$
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+$$
+
+\begin{align*}
+P(y_i|X) &=\frac{1}{P(X)}P(X|y_i)P(y_i)\\
+&= \frac{P(y_i)}{P(X)}P(x_0|y_i)P(x_1|y_i)P(x_2|y_i)...P(x_n|y_i)\\
+&=\frac{P(y_i)}{P(X)}\sum_{j=1}^{n}P(x_j|y_i )
+\end{align*}
+
+
+\begin{align*}
+r = \frac{|w^Tx+b|}{||w||}
+\end{align*}
+
+\begin{align*}
+d(x,y) = \sqrt{\sum_{k=1}^{n}(x_k-y_k)^2}
+\end{align*}
+
+\begin{align*}
+r_t = \frac{accuracy}{count}
+\end{align*}
+
+\end{CJK*}
+\end{document}
+
+\end{document}
