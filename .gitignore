@@ -1,0 +1,9 @@
+
+.DS_Store
+generate data/samples
+generate data/samples/
+no use/
+venv/
+*.xml
+*.xml
+.DS_Store
