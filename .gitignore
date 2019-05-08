@@ -7,3 +7,4 @@ venv/
 *.xml
 *.xml
 .DS_Store
+*.pyc
