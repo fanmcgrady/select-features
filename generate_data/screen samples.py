@@ -18,10 +18,10 @@ for f in files:
         extract.extract(mal_path + "/" + f)
     except:
         print("----------------remove {} {}".format(count, f))
-        os.remove(mal_path + "/" + f)
+        #os.remove(mal_path + "/" + f)
         temp.append(f)
         count += 1
-print(temp)  # remove的文件名
+#print(temp)  # remove的文件名
 print(count)  # remove的文件数量
 
 files = os.listdir(beni_path)
@@ -36,8 +36,8 @@ for f in files:
         # pefile.PE(mal_path + "/" + f).sections
     except:
         print("----------------remove {} {}".format(count, f))
-        os.remove(beni_path + "/" + f)
+        #os.remove(beni_path + "/" + f)
         temp.append(f)
         count += 1
-print(temp)  # remove的文件名
+#print(temp)  # remove的文件名
 print(count)  # remove的文件数量
