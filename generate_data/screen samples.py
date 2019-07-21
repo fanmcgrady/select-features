@@ -10,7 +10,7 @@ mal_path = "samples/benign"
 beni_path = "samples/malicious"
 
 files = os.listdir(mal_path)
-count = 0
+count = 1
 temp = []
 num = 1
 for f in files:
@@ -28,7 +28,7 @@ for f in files:
 print(count)  # remove的文件数量
 
 files = os.listdir(beni_path)
-count = 0
+count = 1
 temp = []
 num = 1
 for f in files:
