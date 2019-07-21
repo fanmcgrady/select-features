@@ -194,8 +194,9 @@ def Sections(pe):
     sections = pe.sections
 
     for f in sections:
-        # print(f.Name)
-        name = str(f.Name, encoding="unicode_escape").strip('\x00')
+        print(f.Name)
+        name = str(f.Name, encoding="utf8").strip('\x00')
+        print(name)
         if name == '.text' or name == '.data' or name == '.rsrc':
             list = []
             list.append(f.Misc)
