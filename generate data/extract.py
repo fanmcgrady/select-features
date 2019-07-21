@@ -4,6 +4,8 @@ import pickle
 import pefile
 import random
 
+# 解析pe文件，提取相应指标
+
 with open("selected dll dict(new).pkl", 'rb') as f:
     dll_dict = pickle.load(f)
 

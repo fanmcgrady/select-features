@@ -1,13 +1,8 @@
-import lief
-import os
-
-import pefile
-
 # import extractFeature
 import extract
-import pickle
+import os
 
-#删除不能正常解析的文件
+# 删除不能正常解析的文件
 
 mal_path = "samples/benign"
 beni_path = "samples/malicious"
