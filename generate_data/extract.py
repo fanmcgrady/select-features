@@ -116,7 +116,7 @@ def Dos_Header(pe):
     features.append(temp.e_oemid)  # 14
     features.append(temp.e_oeminfo)  # 15
     # features.append(temp.e_res2)
-    features.append(temp.e_lfanew)  # 16
+    # features.append(temp.e_lfanew)  # 16
 
     # print(len(features))
     return features

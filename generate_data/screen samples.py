@@ -1,4 +1,6 @@
 # import extractFeature
+import traceback
+
 import extract
 import os
 
@@ -17,6 +19,7 @@ for f in files:
     try:
         extract.extract(mal_path + "/" + f)
     except:
+        traceback.print_exc()
         print("----------------remove {} {}".format(count, f))
         #os.remove(mal_path + "/" + f)
         temp.append(f)
