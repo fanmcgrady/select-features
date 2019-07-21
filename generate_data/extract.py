@@ -260,8 +260,8 @@ def Resources(pe):
     # print(len(features))
     return features
 
-file = "samples/malicious/Virus.Win32.Priest.a"
-temp = extract(file)
+# file = "samples/malicious/Virus.Win32.Priest.a"
+# temp = extract(file)
 # print(len(temp))
 
 # count = 1
