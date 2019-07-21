@@ -1,7 +1,7 @@
 
 .DS_Store
-generate data/samples
-generate data/samples/
+generate_data/samples
+generate_data/samples/
 no use/
 venv/
 *.xml
