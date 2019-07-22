@@ -1,10 +1,8 @@
-
 .DS_Store
 generate_data/samples
 generate_data/samples/
 no use/
 venv/
 *.xml
-*.xml
-.DS_Store
 *.pyc
+*.pkl

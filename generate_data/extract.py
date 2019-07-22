@@ -1,11 +1,7 @@
-import os
 import pickle
-
 import pefile
-import random
 
 # 解析pe文件，提取相应指标
-
 with open("selected dll dict(new).pkl", 'rb') as f:
     dll_dict = pickle.load(f)
 
@@ -13,9 +9,8 @@ with open("selected api dict.pkl", 'rb') as f:
     api_dict = pickle.load(f)
 
 
+# 共163个指标
 def extract(file):
-    features = []
-
     pe = pefile.PE(file)
 
     features = Dos_Header(pe)
@@ -36,6 +31,35 @@ def extract(file):
     return features
 
 
+# DOS 头部，16个指标，选取该部分除了保留字之外的所有属性
+def Dos_Header(pe):
+    features = []
+
+    temp = pe.DOS_HEADER
+    features.append(temp.e_magic)  # 1
+    features.append(temp.e_cblp)  # 2
+    features.append(temp.e_cp)  # 3
+    features.append(temp.e_crlc)  # 4
+    features.append(temp.e_cparhdr)  # 5
+    features.append(temp.e_minalloc)  # 6
+    features.append(temp.e_maxalloc)  # 7
+    features.append(temp.e_ss)  # 8
+    features.append(temp.e_sp)  # 9
+    features.append(temp.e_csum)  # 10
+    features.append(temp.e_ip)  # 11
+    features.append(temp.e_cs)  # 12
+    features.append(temp.e_lfarlc)  # 13
+    # features.append(temp.e_res)
+    features.append(temp.e_oemid)  # 14
+    features.append(temp.e_oeminfo)  # 15
+    # features.append(temp.e_res2)
+    features.append(temp.e_lfanew)  # 16
+
+    # print(len(features))
+    return features
+
+
+# File Header，8个指标，选取该部分的全部 7 个属性，以及该部分提供 的节数是否等于真实节数，等于则值为 1，否则 为0
 def File_Header(pe):
     features = []
 
@@ -56,6 +80,7 @@ def File_Header(pe):
     return features
 
 
+# Optional Header，30个指标，选择该部分的所有属性
 def Optional_Header(pe):
     features = []
     temp = pe.OPTIONAL_HEADER
@@ -94,34 +119,7 @@ def Optional_Header(pe):
     return features
 
 
-def Dos_Header(pe):
-    features = []
-
-    temp = pe.DOS_HEADER
-
-    features.append(temp.e_magic)  # 1
-    features.append(temp.e_cblp)  # 2
-    features.append(temp.e_cp)  # 3
-    features.append(temp.e_crlc)  # 4
-    features.append(temp.e_cparhdr)  # 5
-    features.append(temp.e_minalloc)  # 6
-    features.append(temp.e_maxalloc)  # 7
-    features.append(temp.e_ss)  # 8
-    features.append(temp.e_sp)  # 9
-    features.append(temp.e_csum)  # 10
-    features.append(temp.e_ip)  # 11
-    features.append(temp.e_cs)  # 12
-    features.append(temp.e_lfarlc)  # 13
-    # features.append(temp.e_res)
-    features.append(temp.e_oemid)  # 14
-    features.append(temp.e_oeminfo)  # 15
-    # features.append(temp.e_res2)
-    features.append(temp.e_lfanew)  # 16
-
-    # print(len(features))
-    return features
-
-
+# 数据目录表，32个指标，保存 16 个目录表的虚拟地址和大小，若某个目 录表不存在，则属性全部置为 0
 def Data_Directory(pe):
     # 55 - 86
     features = []
@@ -138,6 +136,9 @@ def Data_Directory(pe):
     return features
 
 
+# 导入的 DLL，20个指标，选择与软件安全可能相关和信息增益较大的 20 个 DLL
+# 导入的 DLL 总数，1个指标，统计该样本导入的 DLL 总数
+# 导入的 API 总数，1个指标，统计该样本导入的 API 总数
 def Imported_DLL_and_API(pe):
     # 142 - 163
     dlls = []
@@ -186,6 +187,7 @@ def Imported_DLL_and_API(pe):
     return result
 
 
+# .text 节/.data 节/.rsrc 节，11 * 3 个指标，选择该部分的所有属性
 def Sections(pe):
     # 87 - 119
     text = []
@@ -233,6 +235,7 @@ def Sections(pe):
     return text
 
 
+# 资源目录表，22个指标，选择调用的资源的个数，并选取 id 属于{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 17, 19, 20, 21, 22, 23, 24}的资源调用的 entry 个数
 def Resources(pe):
     # 120 - 141
     features = []
