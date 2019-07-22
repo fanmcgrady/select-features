@@ -1,6 +1,6 @@
 import pefile
 import os
-import extract_dll
+from generate_data import extract_dll
 import pickle
 import math
 

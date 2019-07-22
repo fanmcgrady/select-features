@@ -1,4 +1,5 @@
 import time
+from enum import Enum
 
 import chainer
 import chainer.functions as F
@@ -6,7 +7,6 @@ import chainer.links as L
 import numpy as np
 from chainer import optimizers
 from chainerrl import replay_buffer, explorers
-from enum import Enum
 
 from utility import env as Env, agent as DDQN, action_value as ActionValue
 
@@ -81,7 +81,7 @@ def main():
             terminal = False
             count = 0
             while not terminal:
-                action, q = agent.act(state,count,feature_max_count)
+                action, q = agent.act(state, count, feature_max_count)
                 if action != len(state): count += 1
                 state, terminal, reward = env.step(action, count)
 
