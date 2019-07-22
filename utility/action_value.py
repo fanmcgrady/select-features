@@ -1,27 +1,20 @@
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
 from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 from builtins import *  # NOQA
 
 from chainerrl.action_value import ActionValue
 from future import standard_library
-from future.utils import with_metaclass
-standard_library.install_aliases()
-import sys
 
-from abc import ABCMeta
-from abc import abstractmethod
-from abc import abstractproperty
-import warnings
+standard_library.install_aliases()
 
 from cached_property import cached_property
 import chainer
 from chainer import cuda
 from chainer import functions as F
 import numpy as np
-
-from chainerrl.misc.chainer_compat import matmul_v3
 
 
 class DiscreteActionValue(ActionValue):

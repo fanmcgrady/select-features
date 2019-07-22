@@ -17,7 +17,7 @@ class Classifier(Enum):
 
 
 # 可变参数
-data = "data(new).csv"
+data = "generate_data/data_test.csv"
 feature_number = 163  # 特征总数量
 feature_max_count = 10  # 选取的特征数目大于该值时，reward为0，用于当特征数目在该范围内时，成功率最多可以到达多少
 MAX_EPISODE = 1000
