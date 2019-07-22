@@ -4,11 +4,11 @@ import extract_dll
 import pickle
 import math
 
+mal_path = "samples/malicious"
+beni_path = "samples/benign"
 
 # step1：提取所有样本的dll
 def get_all_dll():
-    mal_path = "samples/malicious"
-    beni_path = "samples/benign"
 
     mal_dll_dict = {}
     mal_api_dict = {}
@@ -90,8 +90,11 @@ def get_mal_info():
         else:
             return -(count / sum) * math.log((count / sum), 2)
 
-    mal_total = 3010
-    beni_total = 3140
+    files = os.listdir(mal_path)
+    mal_total = len(files)
+    files = os.listdir(beni_path)
+    beni_total = len(files)
+
     sum = mal_total + beni_total
     E_total = E(mal_total, sum) + E(beni_total, sum)
 
@@ -245,7 +248,7 @@ def get_intersection_top20():
 
 if __name__ == '__main__':
     # step1
-    get_all_dll()
+    # get_all_dll()
     # step2
     get_mal_info()
     # step3
