@@ -207,14 +207,12 @@ def get_intersection_top20():
         dll_dict = pickle.load(f)
 
     dict = {}  # 取现有dict和list的交集
-    count = 0
 
     # 1、另外的dll与全部恶意样本dll交集放入dict
     # 2、对dict排序
     for i in list:
         # print(i)
         if dll_dict.get(i, 0):
-            count += 1
             dict[i] = dll_dict.get(i, 0)
 
     sorted_dll_dict = {}

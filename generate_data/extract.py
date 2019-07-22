@@ -2,11 +2,12 @@ import pickle
 import pefile
 
 # 解析pe文件，提取相应指标
-with open("selected dll dict(new).pkl", 'rb') as f:
+with open("intersection-top20.pkl", 'rb') as f:
     dll_dict = pickle.load(f)
 
-with open("selected api dict.pkl", 'rb') as f:
-    api_dict = pickle.load(f)
+
+# with open("selected api dict.pkl", 'rb') as f:
+#     api_dict = pickle.load(f)
 
 
 # 共163个指标
@@ -167,15 +168,15 @@ def Imported_DLL_and_API(pe):
         if not exist:
             dll.append(0)
 
-    for key in api_dict.keys():
-        exist = False
-        for i in apis:
-            if i == key:
-                api.append(1)
-                exist = True
-                break
-        if not exist:
-            api.append(0)
+    # for key in api_dict.keys():
+    #     exist = False
+    #     for i in apis:
+    #         if i == key:
+    #             api.append(1)
+    #             exist = True
+    #             break
+    #     if not exist:
+    #         api.append(0)
 
     result = dll
     # result.extend(api)
