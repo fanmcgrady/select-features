@@ -144,6 +144,8 @@ def main():
         state_size = env.state_size
         action_size = env.action_size
         q_func = QFunction(state_size, action_size)
+        # 使用gpu
+        q_func.to_gpu(0)
 
         start_epsilon = 1.
         end_epsilon = 0.3
