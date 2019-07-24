@@ -1,3 +1,4 @@
+import argparse
 import time
 from enum import Enum
 
@@ -35,6 +36,10 @@ classifier = Classifier.RandomForest
 # 用这个逻辑替代原来的my_train的逻辑，只需要把agent加入即可，agent应该是不需要修改的
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--result-file', type=str, default='result.txt')
+    args = parser.parse_args()
+
     class QFunction(chainer.Chain):
         def __init__(self, obs_size, n_actions, n_hidden_channels=None):
             super(QFunction, self).__init__()
@@ -85,7 +90,7 @@ def main():
                 if action != len(state): count += 1
                 state, terminal, reward = env.step(action, count)
 
-                # print("action = {}".format(action, q))
+                print("action = {}".format(action, q))
 
                 if terminal:
                     state_human = []
@@ -93,7 +98,7 @@ def main():
                         if state[i] == 1:
                             state_human.append(i + 1)
                     print("reward = {}, state = {}, state count = {}".format(reward, state_human, len(state_human)))
-                    with open('result.txt', 'a') as f:
+                    with open(args.result_file, 'a') as f:
                         f.write(
                             "evaluate episode:{}, reward = {}, state count = {}, state = {}\n".format(current, reward,
                                                                                                       len(
@@ -120,7 +125,7 @@ def main():
                     for i in range(len(state)):
                         if state[i] == 1:
                             state_human.append(i + 1)
-                    with open('result.txt', 'a') as f:
+                    with open(args.result_file, 'a') as f:
                         f.write("train episode:{}, reward = {}, state count = {}, state = {}\n".format(episode, reward,
                                                                                                        len(state_human),
                                                                                                        state_human))
@@ -133,7 +138,7 @@ def main():
                         else:
                             agent.stop_episode()
                         if (episode + 1) % 10 == 0 and episode != 0:
-                            evaluate(env, agent, episode / 10)
+                            evaluate(env, agent, (episode + 1) / 10)
 
     def create_agent(env):
         state_size = env.state_size
