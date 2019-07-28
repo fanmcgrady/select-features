@@ -16,3 +16,11 @@
 1. 修改Reward，尝试设置指标数与准确率的比重
 1. 两种终止尝试如何设置
 1. 实验对比，复现其他论文结果
+1. GPU
+1. check out the following paper for feature selection:
+    * Schultz, et al., 2001: http://128.59.14.66/sites/default/files/binaryeval-ieeesp01.pdf
+    * Kolter and Maloof, 2006: http://www.jmlr.org/papers/volume7/kolter06a/kolter06a.pdf
+    * Shafiq et al., 2009: https://www.researchgate.net/profile/Fauzan_Mirza/publication/242084613_A_Framework_for_Efficient_Mining_of_Structural_Information_to_Detect_Zero-Day_Malicious_Portable_Executables/links/0c96052e191668c3d5000000.pdf
+    * Raman, 2012: http://2012.infosecsouthwest.com/files/speaker_materials/ISSW2012_Selecting_Features_to_Classify_Malware.pdf
+    * Saxe and Berlin, 2015: https://arxiv.org/pdf/1508.03096.pdf
+1. 过滤掉单个指标分类70%的指标
