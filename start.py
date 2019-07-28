@@ -16,11 +16,16 @@ class Classifier(Enum):
     RandomForest = 0
     KNN = 1
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--result-file', type=str, default='result.txt')
+parser.add_argument('--max-feature', type=int, default=10)
+args = parser.parse_args()
+
 
 # 可变参数
 data = "generate_data/data_test.csv"
 feature_number = 163  # 特征总数量
-feature_max_count = 10  # 选取的特征数目大于该值时，reward为0，用于当特征数目在该范围内时，成功率最多可以到达多少
+feature_max_count = args.max_feature  # 选取的特征数目大于该值时，reward为0，用于当特征数目在该范围内时，成功率最多可以到达多少
 MAX_EPISODE = 1000
 net_layers = [64, 32]
 classifier = Classifier.RandomForest
@@ -36,9 +41,7 @@ classifier = Classifier.RandomForest
 # 用这个逻辑替代原来的my_train的逻辑，只需要把agent加入即可，agent应该是不需要修改的
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--result-file', type=str, default='result.txt')
-    args = parser.parse_args()
+    episode_reward = []
 
     class QFunction(chainer.Chain):
         def __init__(self, obs_size, n_actions, n_hidden_channels=None):
@@ -100,7 +103,7 @@ def main():
                     print("reward = {}, state = {}, state count = {}".format(reward, state_human, len(state_human)))
                     with open(args.result_file, 'a') as f:
                         f.write(
-                            "evaluate episode:{}, reward = {}, state count = {}, state = {}\n".format(current, reward,
+                            "--------------------------------------------------------------------------------------------------\nevaluate episode:{}, reward = {}, state count = {}, state = {}\n-------------------------------------------------------------------------------------------------\n".format(current, reward,
                                                                                                       len(
                                                                                                           state_human),
                                                                                                       state_human))
@@ -117,6 +120,7 @@ def main():
                 action, q, ga = agent.act_and_train(
                     state, reward, count, feature_max_count)  # 此处action是否合法（即不能重复选取同一个指标）由agent判断。env默认得到的action合法。
                 if action != len(state): count += 1
+                action = int(action)
                 state, terminal, reward = env.step(action, count)
                 # print("episode:{}, action:{}, greedy action:{}, reward = {}".format(episode, action, ga, reward))
 
@@ -137,6 +141,7 @@ def main():
                             agent.stop_episode_and_train(state, reward, terminal)
                         else:
                             agent.stop_episode()
+                        episode_reward.append(reward)
                         if (episode + 1) % 10 == 0 and episode != 0:
                             evaluate(env, agent, (episode + 1) / 10)
 
@@ -189,6 +194,17 @@ def main():
         return env, agent
 
     train()
+    
+    #用于计算本次训练中最大的准确率以及平均准确率
+    max_reward = max(episode_reward)
+    average_reward = 0
+    for i in range(len(episode_reward)-1):
+    	average_reward = average_reward + episode_reward[i]
+    average_reward = average_reward/len(episode_reward)
+    
+    #写入文件的最后一行
+    with open(args.result_file, 'a') as f:
+    	f.write("The max reward of this train:{}, the average reward of this train:{}".format(max_reward, average_reward))
 
 
 if __name__ == '__main__':
