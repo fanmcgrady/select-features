@@ -9,9 +9,6 @@ import chainerrl
 import gym
 import numpy as np
 
-from hook.plot_hook import PlotHook
-
-
 # 使用强化学习模型，创建一个agent智能体
 
 
@@ -112,26 +109,6 @@ class randomAgent():
 
     def load(self, model_name):
         pass
-
-
-average_q = PlotHook('Average Q')
-average_loss = PlotHook('Average Loss', plot_index=1)
-
-
-def plot_average_q(env, agent, t):
-    if t % 10 == 0:
-        stat = agent.get_statistics()
-        d = {}
-        d[stat[0][0]] = stat[0][1]
-        average_q.plot(t, d)
-
-
-def plot_average_loss(env, agent, t):
-    if t % 10 == 0:
-        stat = agent.get_statistics()
-        d = {}
-        d[stat[1][0]] = stat[1][1]
-        average_loss.plot(t, d)
 
 
 # 开始训练
