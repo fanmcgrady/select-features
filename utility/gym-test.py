@@ -158,17 +158,17 @@ def train_agent(env, rounds=20000):
 
     # agent.save(name)
 
-    gym.undo_logger_setup()
+    # gym.undo_logger_setup()
     logging.basicConfig(level=logging.INFO, stream=sys.stdout, format='')
 
     chainerrl.experiments.train_agent_with_evaluation(
         agent, env,
         steps=rounds,  # Train the graduation_agent for this many rounds steps
-        max_episode_len=200,  # Maximum length of each episodes
+        train_max_episode_len=200,  # Maximum length of each episodes
         eval_interval=1000,  # Evaluate the graduation_agent after every 1000 steps
-        eval_n_runs=10,  # 100 episodes are sampled for each evaluation
-        outdir='cart',  # Save everything to 'result' directory
-        step_hooks=[plot_average_q, plot_average_loss],
+        eval_n_episodes=10,  # 100 episodes are sampled for each evaluation
+        eval_n_steps=None,
+        outdir='CartPole',  # Save everything to 'result' directory
         successful_score=100)
 
     return agent
