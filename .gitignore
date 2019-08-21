@@ -6,3 +6,4 @@ venv/
 *.xml
 *.pyc
 *.pkl
+result.txt

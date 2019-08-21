@@ -40,8 +40,12 @@ class DiscreteActionValue(ActionValue):
     @cached_property
     def greedy_actions_with_state(self):
         data = self.q_values.data.astype(np.float)
+        print("data: ", data, len(data))
+        print("state: ", self.state, len(self.state))
         while True:
             action = np.argmax(data, axis=1)[0]
+            print("action:", action)
+
             if action != len(self.state) and self.state[action] == 1:
                 data[0][action] = -100000
             else:
@@ -96,3 +100,7 @@ class DiscreteActionValue(ActionValue):
     @property
     def params(self):
         return (self.q_values,)
+
+    def __getitem__(self, i):
+        return DiscreteActionValue(
+            self.q_values[i], q_values_formatter=self.q_values_formatter)

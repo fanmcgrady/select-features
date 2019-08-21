@@ -15,14 +15,14 @@ from chainerrl.agents import double_dqn
 
 
 class DoubleDQN(double_dqn.DoubleDQN):
-    def act(self, state, count, max):
+    def act(self, state):
         with chainer.using_config('train', False):
             with chainer.no_backprop_mode():
                 action_value = self.model(
                     self.batch_states([state], self.xp, self.phi))
                 action_value.load_state(state)
                 q = float(action_value.max.data)
-                action = cuda.to_cpu(action_value.greedy_actions_with_state.data)[0]
+                action = cuda.to_cpu(action_value.greedy_actions.data)[0]
 
         # Update stats
         self.average_q *= self.average_q_decay
@@ -72,7 +72,7 @@ class DoubleDQN(double_dqn.DoubleDQN):
                 action_value.load_state(state)
                 q = float(action_value.max.data)
                 # print("q is {}".format(q))
-                greedy_action = cuda.to_cpu(action_value.greedy_actions_with_state.data)[
+                greedy_action = cuda.to_cpu(action_value.greedy_actions.data)[
                     0]
                 # print("greedy action is {}".format(greedy_action))
                 # if greedy_action == len(state):
@@ -91,7 +91,7 @@ class DoubleDQN(double_dqn.DoubleDQN):
 
         return action, action_value.q_values.data.astype(np.float), self.average_q, self.average_loss
 
-    def act_and_train(self, state, reward, count, max):
+    def act_and_train(self, state, reward):
 
         with chainer.using_config('train', False):
             with chainer.no_backprop_mode():
@@ -99,7 +99,7 @@ class DoubleDQN(double_dqn.DoubleDQN):
                     self.batch_states([state], self.xp, self.phi))
                 action_value.load_state(state)
                 q = float(action_value.max.data)
-                greedy_action = cuda.to_cpu(action_value.greedy_actions_with_state.data)[
+                greedy_action = cuda.to_cpu(action_value.greedy_actions.data)[
                     0]
 
         # Update stats
@@ -140,22 +140,3 @@ class DoubleDQN(double_dqn.DoubleDQN):
 
         return self.last_action, action_value.q_values.data.astype(np.float), greedy_action
 
-    def stop_episode_and_train(self, state, reward, done=False):
-        """Observe a terminal state and a reward.
-
-        This function must be called once when an episode terminates.
-        """
-
-        assert self.last_state is not None
-        assert self.last_action is not None
-
-        # Add a transition to the replay buffer
-        self.replay_buffer.append(
-            state=self.last_state,
-            action=self.last_action,
-            reward=reward,
-            next_state=state,
-            next_action=self.last_action,
-            is_state_terminal=done)
-
-        self.stop_episode()
