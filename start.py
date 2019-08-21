@@ -16,11 +16,11 @@ class Classifier(Enum):
     RandomForest = 0
     KNN = 1
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--result-file', type=str, default='result.txt')
 parser.add_argument('--max-feature', type=int, default=10)
 args = parser.parse_args()
-
 
 # 可变参数
 data = "generate_data/data_test.csv"
@@ -103,10 +103,11 @@ def main():
                     print("reward = {}, state = {}, state count = {}".format(reward, state_human, len(state_human)))
                     with open(args.result_file, 'a') as f:
                         f.write(
-                            "--------------------------------------------------------------------------------------------------\nevaluate episode:{}, reward = {}, state count = {}, state = {}\n-------------------------------------------------------------------------------------------------\n".format(current, reward,
-                                                                                                      len(
-                                                                                                          state_human),
-                                                                                                      state_human))
+                            "--------------------------------------------------------------------------------------------------\n"
+                            "evaluate episode:{}, reward = {}, state count = {}, state = {}\n"
+                            "-------------------------------------------------------------------------------------------------\n"
+                                .format(current, reward, len(state_human), state_human)
+                        )
 
     def train_agent(env, agent):
         for episode in range(MAX_EPISODE):
@@ -193,18 +194,23 @@ def main():
         return env, agent
 
     train()
-    
-    #用于计算本次训练中最大的准确率以及平均准确率
+
+    # 用于计算本次训练中最大的准确率以及平均准确率
     max_reward = max(episode_reward)
     average_reward = 0
-    for i in range(len(episode_reward)-1):
-    	average_reward = average_reward + episode_reward[i]
-    average_reward = average_reward/len(episode_reward)
-    
-    #写入文件的最后一行
+    for i in range(len(episode_reward) - 1):
+        average_reward = average_reward + episode_reward[i]
+    average_reward = average_reward / len(episode_reward)
+
+    # 写入文件的最后一行
     with open(args.result_file, 'a') as f:
-    	f.write("The max reward of this train:{}, the average reward of this train:{}".format(max_reward, average_reward))
+        f.write(
+            "The max reward of this train:{}, the average reward of this train:{}"
+                .format(max_reward, average_reward))
 
 
 if __name__ == '__main__':
+    start_time = time.time()
     main()
+    elapsed = time.time() - start_time
+    print("elapsed: {}".format(elapsed))
