@@ -92,7 +92,7 @@ def main():
             while not terminal:
                 action, q = agent.act(state)
                 if action != len(state): count += 1
-                state, terminal, reward = env.step(action, count)
+                state, terminal, reward = env.step(action)
 
                 print("action = {}".format(action, q))
 
