@@ -14,8 +14,9 @@ class MyEnv:
         self.max = max  # 最多选取max个特征，超出直接终止
         self.data = data
         self.classifier = classifier
-        self.reset()
         self.dict = {}
+
+        self.reset()
 
     def random_action(self):
         while True:
@@ -24,7 +25,7 @@ class MyEnv:
                 break
         return action
 
-    def step(self, action_index, current_count):
+    def step(self, action_index):
         if action_index == self.action_size - 1:  # 终止
             self.done = True
         else:
@@ -44,7 +45,7 @@ class MyEnv:
             self.add_dict(reward)
 
         # reward = random.random()*100
-        return np.array(self.state), self.done, reward
+        return np.array(self.state), reward, self.done
 
     def reset(self):
         self.state = [0 for _ in range(self.state_size)]

@@ -20,6 +20,7 @@ class Classifier(Enum):
 parser = argparse.ArgumentParser()
 parser.add_argument('--result-file', type=str, default='result.txt')
 parser.add_argument('--max-feature', type=int, default=10)
+parser.add_argument('--gpu', type=int, default=-1)
 args = parser.parse_args()
 
 # 可变参数
@@ -89,7 +90,7 @@ def main():
             terminal = False
             count = 0
             while not terminal:
-                action, q = agent.act(state, count, feature_max_count)
+                action, q = agent.act(state)
                 if action != len(state): count += 1
                 state, terminal, reward = env.step(action, count)
 
@@ -119,10 +120,10 @@ def main():
             while not terminal:
                 # print("count is {}".format(count))
                 action, q, ga = agent.act_and_train(
-                    state, reward, count, feature_max_count)  # 此处action是否合法（即不能重复选取同一个指标）由agent判断。env默认得到的action合法。
+                    state, reward)  # 此处action是否合法（即不能重复选取同一个指标）由agent判断。env默认得到的action合法。
                 if action != len(state): count += 1
                 action = int(action)
-                state, terminal, reward = env.step(action, count)
+                state, reward, terminal = env.step(action)
                 # print("episode:{}, action:{}, greedy action:{}, reward = {}".format(episode, action, ga, reward))
 
                 if terminal:
@@ -131,13 +132,10 @@ def main():
                         if state[i] == 1:
                             state_human.append(i + 1)
                     with open(args.result_file, 'a') as f:
-                        f.write("train episode:{}, reward = {}, state count = {}, state = {}\n".format(episode, reward,
-                                                                                                       len(state_human),
-                                                                                                       state_human))
+                        f.write("train episode:{}, reward = {}, state count = {}, state = {}\n"
+                                .format(episode, reward, len(state_human), state_human))
                         print(" episode:{}, reward = {}, state count = {}, state:{}".format(
-                            episode, reward,
-                            len(state_human),
-                            state_human))
+                            episode, reward, len(state_human), state_human))
                         if action != len(state):
                             agent.stop_episode_and_train(state, reward, terminal)
                         else:
@@ -150,6 +148,10 @@ def main():
         state_size = env.state_size
         action_size = env.action_size
         q_func = QFunction(state_size, action_size)
+
+        # 设置是否使用gpu
+        if (args.gpu > 0):
+            q_func.to_gpu(args.gpu)
 
         start_epsilon = 1.
         end_epsilon = 0.3
@@ -180,7 +182,6 @@ def main():
                                target_update_method='hard',
                                soft_update_tau=1e-2,
                                episodic_update=False,
-                               gpu=1,  # 使用第二块GPU
                                episodic_update_len=16)
         return agent
 
@@ -214,3 +215,6 @@ if __name__ == '__main__':
     main()
     elapsed = time.time() - start_time
     print("elapsed: {}".format(elapsed))
+    # 训练时间
+    with open(args.result_file, 'a') as f:
+        f.write("Training elapsed:{} seconds".format(elapsed))
