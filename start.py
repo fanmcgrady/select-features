@@ -149,10 +149,6 @@ def main():
         action_size = env.action_size
         q_func = QFunction(state_size, action_size)
 
-        # 设置是否使用gpu
-        if (args.gpu > 0):
-            q_func.to_gpu(args.gpu)
-
         start_epsilon = 1.
         end_epsilon = 0.3
         decay_steps = 20
@@ -182,6 +178,7 @@ def main():
                                target_update_method='hard',
                                soft_update_tau=1e-2,
                                episodic_update=False,
+                               gpu=args.gpu,  # 设置是否使用gpu
                                episodic_update_len=16)
         return agent
 
