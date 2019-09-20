@@ -1,6 +1,8 @@
 import pickle
-
 import pefile
+import binascii
+import os
+import math
 
 # 解析pe文件，提取相应指标
 with open("intersection-top20.pkl", 'rb') as f:
@@ -12,6 +14,22 @@ with open("intersection-top20.pkl", 'rb') as f:
 
 
 def extract(file):
+    mal_path = "samples/malicious"
+    beni_path = "samples/benign"
+    paths = [mal_path, beni_path]
+    # n-grams窗口大小
+    N = 4
+    # 保留前top_num个的特征
+    top_num = 200
+    # 计算所有短序列的词频,以及出现次数最高的前top_num个短序列
+    topnum_feature_dict, all_feature_dict = countDF(paths, N, top_num)
+
+    # 统计文件总数
+    sum_of_file = 0
+    for path in paths:
+        file_list = os.listdir(path)
+        sum_of_file += len(file_list)
+
     pe = pefile.PE(file)
 
     features = Dos_Header(pe)
@@ -28,6 +46,7 @@ def extract(file):
     # print(len(features))
     features.extend(Imported_DLL_and_API(pe))
     # print(len(features))
+    features.extend(countTFplusIDF(file, sum_of_file, topnum_feature_dict,all_feature_dict, N))
 
     return features
 
@@ -268,3 +287,92 @@ def Imported_DLL_and_API(pe):
     # print("dll = {}, api = {}".format(len(dll),len(api)))
     # print(len(result))
     return result
+
+# 用于计算在所有文件中的所有n-grams短序列出现的次数（文档频率）
+def countDF(paths, N, top_num):
+    # 存放数据集中各个出现过的短序列的次数
+    all_feature_dict = {}
+    # 存放最高出现次数的top_num个短序列
+    topnum_feature_dict = {}
+    for path in paths:
+        file_list = os.listdir(path)
+        for file in file_list:
+            with open(os.path.join(path, file), 'rb') as cur_file:
+                byte = cur_file.read()
+                hex_string = str.upper(binascii.b2a_hex(byte).decode('ascii'))
+            cur = 0
+            while (cur <= len(hex_string) - N):
+                # 用大小为N的滑动窗口扫描，截取大小为N的特征
+                temp = hex_string[cur:cur + N]
+                # 存入字典
+                if all_feature_dict.get(temp):
+                    all_feature_dict[temp] += 1
+                else:
+                    all_feature_dict[temp] = 1
+                cur += 1
+    sorted_dict = sorted(all_feature_dict.items(), key=lambda x: x[1], reverse=True)
+    sorted_dict = sorted_dict[:top_num]
+    # 将特征字典返回，形式是{feature1:0, feature2:0, .....}，用于单个文件统计
+    for feature in sorted_dict:
+        topnum_feature_dict[feature[0]] = 0
+    return topnum_feature_dict, all_feature_dict
+
+
+# 计算TF值，即：用于计算短序列在某个文件中出现的频率
+def countTF(file, N):
+    tf_dict = {}
+    with open(file, 'rb') as cur_file:
+        byte = cur_file.read()
+        # 转换成16进制的串表示
+        hex_string = str.upper(binascii.b2a_hex(byte).decode('ascii'))
+    cur = 0
+    while (cur <= len(hex_string)-N):
+    # 用大小为N的滑动窗口扫描，截取大小为N的特征
+        temp = hex_string[cur:cur + N]
+        # 存入字典
+        if tf_dict.get(temp):
+            tf_dict[temp] += 1
+        else:
+            tf_dict[temp] = 1
+        # 滑动窗口后移一步
+        cur += 1
+    length = len(tf_dict)
+    for key in tf_dict.keys():
+        tf_dict[key] /= length
+    return tf_dict
+
+
+# 计算IDF值，即：用于计算出现某个短序列的文件在所有文件中的比值倒数的对数值
+# log(D/d)  D为总文件数，小d为出现了某个短序列的文件总数
+def countIDF(pattern, sum_of_file, topnum_feature_dict, all_feature_dict):
+    # 如果在最终选择的特征库中存在该短序列，那么看一下
+    if topnum_feature_dict.get(pattern):
+        d = all_feature_dict[pattern]
+    else:
+        d = 0
+    return math.log((sum_of_file/d))
+
+
+
+# 用于计算单个文件在特征字典中的所有短序列的TF*IDF的值
+# 作为后续分类的特征
+def countTFplusIDF(file, sum_of_file, topnum_feature_dict, all_feature_dict, N):
+    feature = []
+    with open(file, 'rb') as cur_file:
+        byte = cur_file.read()
+        hex = str.upper(binascii.b2a_hex(byte).decode('ascii'))
+    cur = 0
+    # 必须先扫描一次该文件，统计该文件中每个短序列出现的频率
+    tf_dict = countDF(file, N)
+    while cur <= len(hex)-N:
+        temp = hex[cur:cur+N]
+        if temp in topnum_feature_dict.keys():
+            TF = tf_dict.get(temp)
+            IDF = countIDF(temp, sum_of_file, topnum_feature_dict, all_feature_dict)
+            topnum_feature_dict[temp] = TF*IDF
+        else:
+            continue
+    for val in topnum_feature_dict.values():
+        # 一个长度为1Xtop_num的列表
+        feature.append(val)
+    return feature
