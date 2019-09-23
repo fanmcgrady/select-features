@@ -142,7 +142,7 @@ if __name__ == '__main__':
     # origin = [28, 64, 66, 77, 160, 166]
     # origin = [15, 43, 67, 90, 151]
 
-    origin = [162, 163]
+    origin = [19]
 
     state = []
     for i in range(163):
@@ -154,8 +154,9 @@ if __name__ == '__main__':
                 break
         if select == False:
             state.append(0)
-    # print(state)
-    print("{}: {}".format(i + 1, get_reward(state, 1, "data.csv", 0)))
+    print(origin)
+    print(state)
+    print("{}: {}".format(i + 1, get_reward(state, 1, "../generate_data/data_test.csv", 0)))
     # for i in range(183):
     #     state = origin
     #     state[i] = 1
