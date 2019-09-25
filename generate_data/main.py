@@ -4,7 +4,7 @@ import extract
 
 mal_path = "samples/malicious"
 beni_path = "samples/benign"
-data_path = "data_test.csv"
+data_path = "samples_112.csv"
 
 test_path = "samples/Virus.Win"
 # feature_extractor = PEFeatureExtractor()
@@ -16,6 +16,7 @@ test_path = "samples/Virus.Win"
 
 
 def generate_data():
+    global features
     data = []
 
     files = os.listdir(mal_path)
@@ -28,7 +29,7 @@ def generate_data():
         except:
             print("ERROR: {}".format(f))
         features.append(1)
-        if len(features) != 164: print("{}: {}".format(len(features), f))
+        if len(features) != 113: print("{}: {}".format(len(features), f))
         data.append(features)
 
     files = os.listdir(beni_path)
@@ -41,7 +42,7 @@ def generate_data():
         except:
             print("ERROR: {}".format(f))
         features.append(0)
-        if len(features) != 164: print("{}: {}".format(len(features), f))
+        if len(features) != 113: print("{}: {}".format(len(features), f))
         data.append(features)
     return data
 

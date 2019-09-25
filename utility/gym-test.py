@@ -35,7 +35,6 @@ def createAgentDQN(env):
     obs_size = env.observation_space.shape[0]
     n_actions = env.action_space.n
     q_func = QFunction(obs_size, n_actions)
-    q_func.to_gpu(0)
 
     # Use Adam to optimize q_func. eps=1e-2 is for stability.
     optimizer = chainer.optimizers.Adam(eps=1e-2)
@@ -61,7 +60,10 @@ def createAgentDQN(env):
     agent = chainerrl.agents.DoubleDQN(
         q_func, optimizer, replay_buffer, gamma, explorer,
         replay_start_size=32, update_interval=1,
-        target_update_interval=100, phi=phi)
+        target_update_interval=100,
+        gpu=0,  # use gpu 0
+        phi=phi
+    )
 
     return agent
 

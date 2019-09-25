@@ -15,33 +15,33 @@ def extract(file):
     pe = pefile.PE(file)
 
     features = Dos_Header(pe)
-    # print(len(features))
+    print(len(features))
     features.extend(File_Header(pe))
-    # print(len(features))
+    print(len(features))
     features.extend(Optional_Header(pe))
-    # print(len(features))
+    print(len(features))
     features.extend(Data_Directory(pe))
-    # print(len(features))
+    print(len(features))
     features.extend(Sections(pe))
+    print(len(features))
+    # features.extend(Resources(pe))
     # print(len(features))
-    features.extend(Resources(pe))
-    # print(len(features))
-    features.extend(Imported_DLL_and_API(pe))
+    # features.extend(Imported_DLL_and_API(pe))
     # print(len(features))
 
     return features
 
 
-# DOS 头部，15个指标，选取该部分除了保留字之外的所有属性
+# DOS 头部，17个指标，选取该部分除了保留字之外的所有属性
 def Dos_Header(pe):
     features = []
 
     temp = pe.DOS_HEADER
     # features.append(temp.e_magic)  # 1 固定值'MZ'(是为了纪念MS-DOS的最初创建者Mark Zbikowski)，不选取
-    features.append(temp.e_cblp)  # 2
-    features.append(temp.e_cp)  # 3
-    features.append(temp.e_crlc)  # 4
-    features.append(temp.e_cparhdr)  # 5
+    features.append(temp.e_cblp)  # 1
+    features.append(temp.e_cp)  # 2
+    features.append(temp.e_crlc)  # 3
+    features.append(temp.e_cparhdr)  # 4
     features.append(temp.e_minalloc)  # 6
     features.append(temp.e_maxalloc)  # 7
     features.append(temp.e_ss)  # 8
@@ -50,13 +50,12 @@ def Dos_Header(pe):
     features.append(temp.e_ip)  # 11
     features.append(temp.e_cs)  # 12
     features.append(temp.e_lfarlc)  # 13
-    # features.append(temp.e_res) # 保留字，不选取
+    features.append(temp.e_res)  # 保留字
     features.append(temp.e_oemid)  # 14
     features.append(temp.e_oeminfo)  # 15
-    # features.append(temp.e_res2) # 保留字，不选取
+    features.append(temp.e_res2)  # 保留字
     features.append(temp.e_lfanew)  # 16
 
-    # print(len(features))
     return features
 
 
@@ -135,11 +134,11 @@ def Data_Directory(pe):
     for m in range(count, 16):
         features.append(0)
         features.append(0)
-    # print(len(features))
     return features
 
 
 # .text 节/.data 节/.rsrc 节，9 * 3 个指标，选择该部分的所有属性
+# .idata/.rdata/.reloc
 def Sections(pe):
     # 87 - 119
     text = []

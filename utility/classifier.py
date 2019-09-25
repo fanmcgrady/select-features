@@ -12,12 +12,13 @@ from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
 
 
-def get_reward(state, method, data,
-               max):  # state: 标记指标是否选取的数组  method:训练方法   data:[feature,feature,...,label]  max:超出时reward=0
+def get_reward(state,  # state: 标记指标是否选取的数组
+               data_path):  # data_path:
+
     count = len(state)  # 本次选的指标数目
     # print(count)
 
-    data = load_data(data)
+    data = load_data(data_path)
 
     for i in reversed(range(len(state))):
         if state[i] == 0:
@@ -32,10 +33,10 @@ def get_reward(state, method, data,
 
     # precision, recall = classify(data, label, method)
     # return 0
-    return classify(data, state, label, method)
+    return classify(data, label)
 
 
-def classify(data, state, label, method):
+def classify(data, label):
     # x_train, x_test, y_train, y_test = train_test_split(data, label, test_size=0.3, random_state=0)
 
     x_train, x_test, y_train, y_test = train_test_split(data, label, test_size=0.2, random_state=0)
@@ -105,6 +106,7 @@ def classify(data, state, label, method):
     # return precision_score(y_test, y_predict), recall_score(y_test, y_predict)
 
 
+# 读取指定路径的csv文件
 def load_data(data_path):
     data = []
 
@@ -120,43 +122,3 @@ def load_data(data_path):
                     row[i] = int(row[i])
             data.append(row)
     return data
-
-
-if __name__ == '__main__':
-    # state = []
-    # for i in range(183):
-    #     if i + 1 == 3 or i + 1 == 103 or i + 1 == 168 or i + 1 == 173 or i + 1 == 183:
-    #         state.append(1)
-    #     else:
-    #         state.append(1)
-    #
-    # print(get_reward(state, 1, "data.csv", 0))
-    # main(state)
-
-    # origin = [15, 33, 75, 81, 89, 149, 154, 155, 159, 163] # 10 from DecisionTree
-    # origin = [78, 96, 97, 116, 122, 134, 148, 159, 168] # 9 from DecisionTree
-    # origin = [48, 56, 72, 79, 137, 141, 158, 159]  # 8 from DecisionTree
-    # origin = [2, 38, 55, 105, 123, 132, 147]  # 7 from DecisionTree
-    # origin = [28, 64, 66, 77, 97, 178] # 6 from DecisionTree
-
-    # origin = [28, 64, 66, 77, 160, 166]
-    # origin = [15, 43, 67, 90, 151]
-
-    origin = [162, 163]
-
-    state = []
-    for i in range(163):
-        select = False
-        for x in origin:
-            if i+1 == x:
-                state.append(1)
-                select = True
-                break
-        if select == False:
-            state.append(0)
-    # print(state)
-    print("{}: {}".format(i + 1, get_reward(state, 1, "data.csv", 0)))
-    # for i in range(183):
-    #     state = origin
-    #     state[i] = 1
-    #     print("{}: {}".format(i+1,get_reward(state,1,"data.csv",0)))
