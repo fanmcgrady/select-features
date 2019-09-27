@@ -1,6 +1,6 @@
 import csv
 import os
-import extract
+import extract_parser_features as extract
 
 mal_path = "samples/malicious"
 beni_path = "samples/benign"
