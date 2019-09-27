@@ -1,19 +1,12 @@
 import csv
 import os
-import extract
+from generate_data import extract
 
 mal_path = "samples/malicious"
 beni_path = "samples/benign"
 data_path = "samples_112.csv"
 
 test_path = "samples/Virus.Win"
-# feature_extractor = PEFeatureExtractor()
-
-
-# def extract(f):
-#     features = extract.extract(f)
-#     return features
-
 
 def generate_data():
     global features
