@@ -1,6 +1,6 @@
 import csv
 import os
-from . import extract
+import extract
 
 mal_path = "samples/malicious"
 beni_path = "samples/benign"
