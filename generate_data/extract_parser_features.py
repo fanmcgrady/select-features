@@ -1,8 +1,9 @@
+import os
 import pickle
-
 import pefile
 
-# 解析pe文件，提取相应指标
+from utils import save_csv
+
 with open("intersection-top20.pkl", 'rb') as f:
     dll_dict = pickle.load(f)
 
@@ -11,6 +12,7 @@ with open("intersection-top20.pkl", 'rb') as f:
 #     api_dict = pickle.load(f)
 
 
+# 解析pe文件，提取相应指标
 def extract(file):
     pe = pefile.PE(file)
 
@@ -50,10 +52,10 @@ def Dos_Header(pe):
     features.append(temp.e_ip)  # 11
     features.append(temp.e_cs)  # 12
     features.append(temp.e_lfarlc)  # 13
-    features.append(temp.e_res)  # 保留字
+    # features.append(temp.e_res)  # 保留字
     features.append(temp.e_oemid)  # 14
     features.append(temp.e_oeminfo)  # 15
-    features.append(temp.e_res2)  # 保留字
+    # features.append(temp.e_res2)  # 保留字
     features.append(temp.e_lfanew)  # 16
 
     return features
@@ -267,3 +269,44 @@ def Imported_DLL_and_API(pe):
     # print("dll = {}, api = {}".format(len(dll),len(api)))
     # print(len(result))
     return result
+
+
+mal_path = "samples/malicious"
+beni_path = "samples/benign"
+data_path = "parser.csv"
+
+
+def generate_data():
+    features = []
+    data = []
+
+    files = os.listdir(mal_path)
+    count = 1
+    for f in files:
+        if count % 100 == 0: print("malicious: {}".format(count))
+        count += 1
+        try:
+            features = extract(mal_path + "/" + f)
+        except:
+            print("ERROR: {}".format(f))
+        features.append(1)
+        if len(features) != 111: print("{}: {}".format(len(features), f))
+        data.append(features)
+
+    files = os.listdir(beni_path)
+    count = 1
+    for f in files:
+        if count % 100 == 0: print("benign: {}".format(count))
+        count += 1
+        try:
+            features = extract(beni_path + "/" + f)
+        except:
+            print("ERROR: {}".format(f))
+        features.append(0)
+        if len(features) != 111: print("{}: {}".format(len(features), f))
+        data.append(features)
+    return data
+
+
+if __name__ == '__main__':
+    save_csv(data_path, generate_data())

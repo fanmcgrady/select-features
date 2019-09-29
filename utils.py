@@ -1,6 +1,11 @@
 import csv
 import os
+
+from generate_data import extract_parser_features
 from utility.classifier import get_reward
+
+MAL_PATH = "samples/benign"
+BENI_PATH = "samples/malicious"
 
 
 # 读取csv
@@ -47,3 +52,41 @@ def test_single_features(data_path, feature_index_array):
         state[j] = 1
 
     return get_reward(state, data_path)
+
+
+# 删除不能正常解析的文件
+def screen_samples():
+    files = os.listdir(MAL_PATH)
+    count = 1
+    temp = []
+    num = 1
+    for f in files:
+        if num % 1000 == 0: print(num)
+        num += 1
+        try:
+            extract_parser_features.extract(MAL_PATH + "/" + f)
+        except:
+            print("----------------remove {} {}".format(count, f))
+            os.remove(MAL_PATH + "/" + f)
+            temp.append(f)
+            count += 1
+    # print(temp)  # remove的文件名
+    print(count)  # remove的文件数量
+
+    files = os.listdir(BENI_PATH)
+    count = 1
+    temp = []
+    num = 1
+    for f in files:
+        if num % 100 == 0: print(num)
+        num += 1
+        try:
+            extract_parser_features.extract(BENI_PATH + "/" + f)
+            # pefile.PE(mal_path + "/" + f).sections
+        except:
+            print("----------------remove {} {}".format(count, f))
+            os.remove(BENI_PATH + "/" + f)
+            temp.append(f)
+            count += 1
+    # print(temp)  # remove的文件名
+    print(count)  # remove的文件数量
