@@ -2,7 +2,10 @@ import os
 import pickle
 import pefile
 
-from .. import utils
+import sys
+
+sys.path.append('../')
+import utils
 
 with open("intersection-top20.pkl", 'rb') as f:
     dll_dict = pickle.load(f)
