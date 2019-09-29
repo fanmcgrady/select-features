@@ -2,7 +2,7 @@ import os
 import pickle
 import pefile
 
-from utils import save_csv
+from .. import utils
 
 with open("intersection-top20.pkl", 'rb') as f:
     dll_dict = pickle.load(f)
@@ -309,4 +309,4 @@ def generate_data():
 
 
 if __name__ == '__main__':
-    save_csv(data_path, generate_data())
+    utils.save_csv(data_path, generate_data())
