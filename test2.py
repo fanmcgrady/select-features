@@ -7,4 +7,7 @@ if __name__ == '__main__':
     # utils.save_csv(data_path, utils.generate_data())
 
     # 2、测试提取特征逐个的成功率
-    utils.get_features_reward(data_path, [0])
+    data = utils.load_csv(data_path)
+    for i in range(len(data[0])):
+        reward = utils.get_features_reward(data_path, [i])
+        print("The reward of the feature {} is {}.".format(i, reward))

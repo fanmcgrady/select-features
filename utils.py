@@ -85,7 +85,7 @@ def get_features_reward(data_path, feature_index_array):
     data = load_csv(data_path)
 
     state = []
-    for i in range(len(data)):
+    for i in range(len(data[0])):
         state.append(0)
     for j in feature_index_array:
         state[j] = 1

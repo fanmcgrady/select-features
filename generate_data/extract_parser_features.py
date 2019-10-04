@@ -1,14 +1,8 @@
-import os
-import pickle
 import pefile
 
-import sys
 
-sys.path.append('../')
-import utils
-
-with open("intersection-top20.pkl", 'rb') as f:
-    dll_dict = pickle.load(f)
+# with open("intersection-top20.pkl", 'rb') as f:
+#     dll_dict = pickle.load(f)
 
 
 # with open("selected api dict.pkl", 'rb') as f:
