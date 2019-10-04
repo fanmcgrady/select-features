@@ -2,7 +2,7 @@ import csv
 import os
 
 from generate_data import extract_parser_features
-from utility.classifier import get_reward
+from utility import classifier
 
 MAL_PATH = "samples/benign"
 BENI_PATH = "samples/malicious"
@@ -37,21 +37,6 @@ def save_csv(data_path, data):
             if data[i]:
                 writer.writerow(data[i])
     print("save data successfully to: {}".format(data_path))
-
-
-# 测试单个指标
-# data_path: 样本csv路径
-# feature_index_array: 要选取的指标索引
-def test_single_features(data_path, feature_index_array):
-    data = load_csv(data_path)
-
-    state = []
-    for i in range(len(data)):
-        state.append(0)
-    for j in feature_index_array:
-        state[j] = 1
-
-    return get_reward(state, data_path)
 
 
 # 删除不能正常解析的文件
@@ -90,3 +75,52 @@ def screen_samples():
             count += 1
     # print(temp)  # remove的文件名
     print(count)  # remove的文件数量
+
+
+# 测试某个指标的成功率
+def get_features_reward(data_path, feature_index_array):
+    # data_path: 样本csv路径
+    # feature_index_array: 要选取的指标索引
+
+    data = load_csv(data_path)
+
+    state = []
+    for i in range(len(data)):
+        state.append(0)
+    for j in feature_index_array:
+        state[j] = 1
+
+    return classifier.get_reward(state, data_path)
+
+
+# 生成样本文件
+def generate_data():
+    features = []
+    data = []
+
+    files = os.listdir(MAL_PATH)
+    count = 1
+    for f in files:
+        if count % 100 == 0: print("malicious: {}".format(count))
+        count += 1
+        try:
+            features = extract_parser_features.extract(MAL_PATH + "/" + f)
+        except:
+            print("ERROR: {}".format(f))
+        features.append(1)
+        if len(features) != 111: print("{}: {}".format(len(features), f))
+        data.append(features)
+
+    files = os.listdir(BENI_PATH)
+    count = 1
+    for f in files:
+        if count % 100 == 0: print("benign: {}".format(count))
+        count += 1
+        try:
+            features = extract_parser_features.extract(BENI_PATH + "/" + f)
+        except:
+            print("ERROR: {}".format(f))
+        features.append(0)
+        if len(features) != 111: print("{}: {}".format(len(features), f))
+        data.append(features)
+    return data
