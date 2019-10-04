@@ -10,4 +10,8 @@ if __name__ == '__main__':
     data = utils.load_csv(data_path)
     for i in range(len(data[0])):
         reward = utils.get_features_reward(data_path, [i])
-        print("The reward of the feature {} is {}.".format(i, reward))
+        with open("get_features_reward.txt", 'a') as f:
+            if reward > 0.7:
+                f.write("The reward of the feature {} is {} > 0.7".format(i, reward))
+            else:
+                f.write("The reward of the feature {} is {}".format(i, reward))

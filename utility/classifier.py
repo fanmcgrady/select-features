@@ -20,7 +20,7 @@ def get_reward(state,  # state: 标记指标是否选取的数组
 
     data = load_data(data_path)
 
-    for i in reversed(range(len(state))):
+    for i in reversed(range(len(state) - 1)):
         if state[i] == 0:
             count -= 1
             for index in range(len(data)):
