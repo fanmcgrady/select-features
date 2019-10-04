@@ -11,7 +11,7 @@ if __name__ == '__main__':
     for i in range(len(data[0])):
         reward = utils.get_features_reward(data_path, [i])
         with open("get_features_reward.txt", 'a') as f:
+            f.write("The reward of the feature {} is {}".format(i, reward))
             if reward > 0.7:
-                f.write("The reward of the feature {} is {} > 0.7".format(i, reward))
-            else:
-                f.write("The reward of the feature {} is {}".format(i, reward))
+                f.write(" > 0.7")
+            f.write("\n")
