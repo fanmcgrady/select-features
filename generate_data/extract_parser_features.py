@@ -31,7 +31,7 @@ def extract(file):
     return features
 
 
-# DOS 头部，17个指标，选取该部分除了保留字之外的所有属性
+# DOS 头部，15个指标，选取该部分除了保留字之外的所有属性
 def Dos_Header(pe):
     features = []
 
@@ -41,19 +41,19 @@ def Dos_Header(pe):
     features.append(temp.e_cp)  # 2
     features.append(temp.e_crlc)  # 3
     features.append(temp.e_cparhdr)  # 4
-    features.append(temp.e_minalloc)  # 6
-    features.append(temp.e_maxalloc)  # 7
-    features.append(temp.e_ss)  # 8
-    features.append(temp.e_sp)  # 9
-    features.append(temp.e_csum)  # 10
-    features.append(temp.e_ip)  # 11
-    features.append(temp.e_cs)  # 12
-    features.append(temp.e_lfarlc)  # 13
+    features.append(temp.e_minalloc)  # 5
+    features.append(temp.e_maxalloc)  # 6
+    features.append(temp.e_ss)  # 7
+    features.append(temp.e_sp)  # 8
+    features.append(temp.e_csum)  # 9
+    features.append(temp.e_ip)  # 10
+    features.append(temp.e_cs)  # 11
+    features.append(temp.e_lfarlc)  # 12
     # features.append(temp.e_res)  # 保留字
-    features.append(temp.e_oemid)  # 14
-    features.append(temp.e_oeminfo)  # 15
+    features.append(temp.e_oemid)  # 13
+    features.append(temp.e_oeminfo)  # 14
     # features.append(temp.e_res2)  # 保留字
-    features.append(temp.e_lfanew)  # 16
+    features.append(temp.e_lfanew)  # 15
 
     return features
 
@@ -64,16 +64,16 @@ def File_Header(pe):
 
     temp = pe.FILE_HEADER
 
-    features.append(temp.Machine)  # 17 运行平台
-    features.append(temp.NumberOfSections)  # 18 文件的区块数目
-    # features.append(temp.TimeDateStamp)  # 19 文件创建日期和时间 不选取
-    features.append(temp.PointerToSymbolTable)  # 20 指向符号表（用于调试）
-    features.append(temp.NumberOfSymbols)  # 21 符号表中符号个数（用于调试）
-    features.append(temp.SizeOfOptionalHeader)  # 22 IMAGE_OPTIONAL_HEADER32结构大小
-    features.append(temp.Characteristics)  # 23 文件属性
+    features.append(temp.Machine)  # 16 运行平台
+    features.append(temp.NumberOfSections)  # 17 文件的区块数目
+    # features.append(temp.TimeDateStamp)  # 文件创建日期和时间 不选取
+    features.append(temp.PointerToSymbolTable)  # 18 指向符号表（用于调试）
+    features.append(temp.NumberOfSymbols)  # 19 符号表中符号个数（用于调试）
+    features.append(temp.SizeOfOptionalHeader)  # 20 IMAGE_OPTIONAL_HEADER32结构大小
+    features.append(temp.Characteristics)  # 21 文件属性
 
     # 该部分提供的节数是否等于真实节数，等于则值为 1，否则为0
-    if temp.NumberOfSections == len(pe.sections):  # 24
+    if temp.NumberOfSections == len(pe.sections):  # 22
         features.append(1)
     else:
         features.append(0)
@@ -85,36 +85,36 @@ def Optional_Header(pe):
     features = []
     temp = pe.OPTIONAL_HEADER
 
-    features.append(temp.Magic)  # 25 标志字, ROM 映像（0107h）,普通可执行文件（010Bh）
-    features.append(temp.MajorLinkerVersion)  # 26 链接程序的主版本号
-    features.append(temp.MinorLinkerVersion)  # 27 链接程序的次版本号
-    features.append(temp.SizeOfCode)  # 28 所有含代码的节的总大小
-    features.append(temp.SizeOfInitializedData)  # 29 所有含已初始化数据的节的总大小
-    features.append(temp.SizeOfUninitializedData)  # 30 所有含未初始化数据的节的大小
-    features.append(temp.AddressOfEntryPoint)  # 31 程序执行入口RVA
-    features.append(temp.BaseOfCode)  # 32 代码的区块的起始RVA
-    # features.append(temp.BaseOfData)  # 33 数据的区块的起始RVA 源码显示64位PE文件无该字段，所以不选取
-    features.append(temp.ImageBase)  # 33 程序的首选装载地址
-    features.append(temp.SectionAlignment)  # 34 内存中的区块的对齐大小
-    features.append(temp.FileAlignment)  # 35 文件中的区块的对齐大小
-    features.append(temp.MajorOperatingSystemVersion)  # 36 要求操作系统最低版本号的主版本号
-    features.append(temp.MinorOperatingSystemVersion)  # 37 要求操作系统最低版本号的副版本号
-    features.append(temp.MajorImageVersion)  # 38 可运行于操作系统的主版本号
-    features.append(temp.MinorImageVersion)  # 39 可运行于操作系统的次版本号
-    features.append(temp.MajorSubsystemVersion)  # 40 要求最低子系统版本的主版本号
-    features.append(temp.MinorSubsystemVersion)  # 41 要求最低子系统版本的次版本号
-    features.append(temp.Reserved1)  # 42 莫须有字段，不被病毒利用的话一般为0
-    features.append(temp.SizeOfImage)  # 43 映像装入内存后的总尺寸
-    features.append(temp.SizeOfHeaders)  # 44 所有头 + 区块表的尺寸大小
-    features.append(temp.CheckSum)  # 45 映像的校检和
-    features.append(temp.Subsystem)  # 46 可执行文件期望的子系统
-    features.append(temp.DllCharacteristics)  # 47 DllMain()函数何时被调用，默认为 0
-    features.append(temp.SizeOfStackReserve)  # 48 初始化时的栈大小
-    features.append(temp.SizeOfStackCommit)  # 49 初始化时实际提交的栈大小
-    features.append(temp.SizeOfHeapReserve)  # 50 初始化时保留的堆大小
-    features.append(temp.SizeOfHeapCommit)  # 51 初始化时实际提交的堆大小
-    features.append(temp.LoaderFlags)  # 52 与调试有关，默认为0
-    features.append(temp.NumberOfRvaAndSizes)  # 53 下边数据目录的项数，这个字段自Windows NT 发布以来一直是16
+    features.append(temp.Magic)  # 23 标志字, ROM 映像（0107h）,普通可执行文件（010Bh）
+    features.append(temp.MajorLinkerVersion)  # 24 链接程序的主版本号
+    features.append(temp.MinorLinkerVersion)  # 25 链接程序的次版本号
+    features.append(temp.SizeOfCode)  # 26 所有含代码的节的总大小
+    features.append(temp.SizeOfInitializedData)  # 27 所有含已初始化数据的节的总大小
+    features.append(temp.SizeOfUninitializedData)  # 28 所有含未初始化数据的节的大小
+    features.append(temp.AddressOfEntryPoint)  # 29 程序执行入口RVA
+    features.append(temp.BaseOfCode)  # 30 代码的区块的起始RVA
+    # features.append(temp.BaseOfData)  # 数据的区块的起始RVA 源码显示64位PE文件无该字段，所以不选取
+    features.append(temp.ImageBase)  # 31 程序的首选装载地址
+    features.append(temp.SectionAlignment)  # 32 内存中的区块的对齐大小
+    features.append(temp.FileAlignment)  # 33 文件中的区块的对齐大小
+    features.append(temp.MajorOperatingSystemVersion)  # 34 要求操作系统最低版本号的主版本号
+    features.append(temp.MinorOperatingSystemVersion)  # 35 要求操作系统最低版本号的副版本号
+    features.append(temp.MajorImageVersion)  # 36 可运行于操作系统的主版本号
+    features.append(temp.MinorImageVersion)  # 37 可运行于操作系统的次版本号
+    features.append(temp.MajorSubsystemVersion)  # 38 要求最低子系统版本的主版本号
+    features.append(temp.MinorSubsystemVersion)  # 39 要求最低子系统版本的次版本号
+    features.append(temp.Reserved1)  # 40 莫须有字段，不被病毒利用的话一般为0
+    features.append(temp.SizeOfImage)  # 41 映像装入内存后的总尺寸
+    features.append(temp.SizeOfHeaders)  # 42 所有头 + 区块表的尺寸大小
+    features.append(temp.CheckSum)  # 43 映像的校检和
+    features.append(temp.Subsystem)  # 44 可执行文件期望的子系统
+    features.append(temp.DllCharacteristics)  # 45 DllMain()函数何时被调用，默认为 0
+    features.append(temp.SizeOfStackReserve)  # 46 初始化时的栈大小
+    features.append(temp.SizeOfStackCommit)  # 47 初始化时实际提交的栈大小
+    features.append(temp.SizeOfHeapReserve)  # 48 初始化时保留的堆大小
+    features.append(temp.SizeOfHeapCommit)  # 49 初始化时实际提交的堆大小
+    features.append(temp.LoaderFlags)  # 50 与调试有关，默认为0
+    features.append(temp.NumberOfRvaAndSizes)  # 51 下边数据目录的项数，这个字段自Windows NT 发布以来一直是16
 
     return features
 
@@ -122,7 +122,6 @@ def Optional_Header(pe):
 # 数据目录表，32个指标，保存 16 个目录表的虚拟地址和大小，
 # 若某个目录表不存在，则属性全部置为 0
 def Data_Directory(pe):
-    # 55 - 86
     features = []
     temp = pe.OPTIONAL_HEADER.DATA_DIRECTORY
     count = 0
@@ -136,10 +135,9 @@ def Data_Directory(pe):
     return features
 
 
-# .text 节/.data 节/.rsrc 节，9 * 3 个指标，选择该部分的所有属性
+# .text 节/.data 节/.rsrc 节，27 个指标，选择该部分的所有属性
 # .idata/.rdata/.reloc
 def Sections(pe):
-    # 87 - 119
     text = []
     data = []
     rsrc = []
