@@ -1,0 +1,110 @@
+The reward of the feature 0 is 0.5661400613062957
+The reward of the feature 1 is 0.6764913935392596
+The reward of the feature 2 is 0.5661400613062957
+The reward of the feature 3 is 0.4692289554350389
+The reward of the feature 4 is 0.6510257014854987
+The reward of the feature 5 is 0.4536665880688517
+The reward of the feature 6 is 0.43810422070266447
+The reward of the feature 7 is 0.5708559302051402
+The reward of the feature 8 is 0.5661400613062957
+The reward of the feature 9 is 0.5661400613062957
+The reward of the feature 10 is 0.4539023815137939
+The reward of the feature 11 is 0.5661400613062957
+The reward of the feature 12 is 0.465220466871021
+The reward of the feature 13 is 0.5659042678613535
+The reward of the feature 14 is 0.7540674369252535 > 0.7
+The reward of the feature 15 is 0.8630040084885641 > 0.7
+The reward of the feature 16 is 0.7618486206083471 > 0.7
+The reward of the feature 17 is 0.5661400613062957
+The reward of the feature 18 is 0.5659042678613535
+The reward of the feature 19 is 0.8622966281537373 > 0.7
+The reward of the feature 20 is 0.9742985145012969 > 0.7
+The reward of the feature 21 is 0.4338599386937043
+The reward of the feature 22 is 0.8630040084885641 > 0.7
+The reward of the feature 23 is 0.9460033011082292 > 0.7
+The reward of the feature 24 is 0.7568969582645603 > 0.7
+The reward of the feature 25 is 0.7156331053996698 > 0.7
+The reward of the feature 26 is 0.7092666823862297 > 0.7
+The reward of the feature 27 is 0.5687337892006602
+The reward of the feature 28 is 0.8024050931384108 > 0.7
+The reward of the feature 29 is 0.5878330582409809
+The reward of the feature 30 is 0.850742749351568 > 0.7
+The reward of the feature 31 is 0.6085828813958972
+The reward of the feature 32 is 0.47418061777882575
+The reward of the feature 33 is 0.9438811601037491 > 0.7
+The reward of the feature 34 is 0.894600330110823 > 0.7
+The reward of the feature 35 is 0.87314312662108 > 0.7
+The reward of the feature 36 is 0.8521575100212214 > 0.7
+The reward of the feature 37 is 0.9587361471351097 > 0.7
+The reward of the feature 38 is 0.8818674840839424 > 0.7
+The reward of the feature 39 is 0.4439990568262202
+The reward of the feature 40 is 0.696298042914407
+The reward of the feature 41 is 0.6724829049752417
+The reward of the feature 42 is 0.7762320207498231 > 0.7
+The reward of the feature 43 is 0.7734024994105164 > 0.7
+The reward of the feature 44 is 0.9665173308182032 > 0.7
+The reward of the feature 45 is 0.7708087715161519 > 0.7
+The reward of the feature 46 is 0.5774581466635228
+The reward of the feature 47 is 0.43716104692289554
+The reward of the feature 48 is 0.5708559302051402
+The reward of the feature 49 is 0.45272341428908275
+The reward of the feature 50 is 0.5661400613062957
+The reward of the feature 51 is 0.7243574628625324 > 0.7
+The reward of the feature 52 is 0.7297807120962038 > 0.7
+The reward of the feature 53 is 0.8304645130865362 > 0.7
+The reward of the feature 54 is 0.7778825748644188 > 0.7
+The reward of the feature 55 is 0.7705729780712096 > 0.7
+The reward of the feature 56 is 0.8526290969111059 > 0.7
+The reward of the feature 57 is 0.7580759254892714 > 0.7
+The reward of the feature 58 is 0.7580759254892714 > 0.7
+The reward of the feature 59 is 0.4383400141476067
+The reward of the feature 60 is 0.6689460033011082
+The reward of the feature 61 is 0.7231784956378212 > 0.7
+The reward of the feature 62 is 0.7403914171186041 > 0.7
+The reward of the feature 63 is 0.8469700542324924 > 0.7
+The reward of the feature 64 is 0.8474416411223767 > 0.7
+The reward of the feature 65 is 0.45555293562838955
+The reward of the feature 66 is 0.5661400613062957
+The reward of the feature 67 is 0.4338599386937043
+The reward of the feature 68 is 0.4338599386937043
+The reward of the feature 69 is 0.5673190285310068
+The reward of the feature 70 is 0.5687337892006602
+The reward of the feature 71 is 0.4336241452487621
+The reward of the feature 72 is 0.4338599386937043
+The reward of the feature 73 is 0.7217637349681679 > 0.7
+The reward of the feature 74 is 0.4546097618486206
+The reward of the feature 75 is 0.7106814430558831 > 0.7
+The reward of the feature 76 is 0.7790615420891299 > 0.7
+The reward of the feature 77 is 0.6128271634048573
+The reward of the feature 78 is 0.43551049280829995
+The reward of the feature 79 is 0.6099976420655506
+The reward of the feature 80 is 0.6099976420655506
+The reward of the feature 81 is 0.5661400613062957
+The reward of the feature 82 is 0.4932798868191464
+The reward of the feature 83 is 0.755717991039849 > 0.7
+The reward of the feature 84 is 0.607403914171186
+The reward of the feature 85 is 0.7288375383164348 > 0.7
+The reward of the feature 86 is 0.6500825277057298
+The reward of the feature 87 is 0.4350389059184155
+The reward of the feature 88 is 0.4350389059184155
+The reward of the feature 89 is 0.4338599386937043
+The reward of the feature 90 is 0.4338599386937043
+The reward of the feature 91 is 0.7165762791794388 > 0.7
+The reward of the feature 92 is 0.4338599386937043
+The reward of the feature 93 is 0.4338599386937043
+The reward of the feature 94 is 0.4338599386937043
+The reward of the feature 95 is 0.4338599386937043
+The reward of the feature 96 is 0.4338599386937043
+The reward of the feature 97 is 0.4338599386937043
+The reward of the feature 98 is 0.4338599386937043
+The reward of the feature 99 is 0.4338599386937043
+The reward of the feature 100 is 0.4338599386937043
+The reward of the feature 101 is 0.796510257014855 > 0.7
+The reward of the feature 102 is 0.7021928790379628 > 0.7
+The reward of the feature 103 is 0.7498231549162934 > 0.7
+The reward of the feature 104 is 0.7434567319028531 > 0.7
+The reward of the feature 105 is 0.4338599386937043
+The reward of the feature 106 is 0.43409573213864655
+The reward of the feature 107 is 0.43574628625324213
+The reward of the feature 108 is 0.43645366658806883
+The reward of the feature 109 is 0.894600330110823 > 0.7
