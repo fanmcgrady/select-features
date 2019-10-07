@@ -53,7 +53,7 @@ def Dos_Header(pe):
     features.append(temp.e_oemid)  # 13
     features.append(temp.e_oeminfo)  # 14
     # features.append(temp.e_res2)  # 保留字
-    features.append(temp.e_lfanew)  # 15
+    features.append(temp.e_lfanew)  # 15    0.7540674369252535
 
     return features
 
@@ -64,13 +64,13 @@ def File_Header(pe):
 
     temp = pe.FILE_HEADER
 
-    features.append(temp.Machine)  # 16 运行平台
-    features.append(temp.NumberOfSections)  # 17 文件的区块数目
+    features.append(temp.Machine)  # 16 运行平台    0.8630040084885641
+    features.append(temp.NumberOfSections)  # 17 文件的区块数目    0.7618486206083471
     # features.append(temp.TimeDateStamp)  # 文件创建日期和时间 不选取
     features.append(temp.PointerToSymbolTable)  # 18 指向符号表（用于调试）
     features.append(temp.NumberOfSymbols)  # 19 符号表中符号个数（用于调试）
-    features.append(temp.SizeOfOptionalHeader)  # 20 IMAGE_OPTIONAL_HEADER32结构大小
-    features.append(temp.Characteristics)  # 21 文件属性
+    features.append(temp.SizeOfOptionalHeader)  # 20 IMAGE_OPTIONAL_HEADER32结构大小    0.8622966281537373
+    features.append(temp.Characteristics)  # 21 文件属性    0.9742985145012969
 
     # 该部分提供的节数是否等于真实节数，等于则值为 1，否则为0
     if temp.NumberOfSections == len(pe.sections):  # 22
@@ -85,31 +85,31 @@ def Optional_Header(pe):
     features = []
     temp = pe.OPTIONAL_HEADER
 
-    features.append(temp.Magic)  # 23 标志字, ROM 映像（0107h）,普通可执行文件（010Bh）
-    features.append(temp.MajorLinkerVersion)  # 24 链接程序的主版本号
-    features.append(temp.MinorLinkerVersion)  # 25 链接程序的次版本号
-    features.append(temp.SizeOfCode)  # 26 所有含代码的节的总大小
-    features.append(temp.SizeOfInitializedData)  # 27 所有含已初始化数据的节的总大小
+    features.append(temp.Magic)  # 23 标志字, ROM 映像（0107h）,普通可执行文件（010Bh） 0.8630040084885641
+    features.append(temp.MajorLinkerVersion)  # 24 链接程序的主版本号    0.9460033011082292
+    features.append(temp.MinorLinkerVersion)  # 25 链接程序的次版本号    0.7568969582645603
+    features.append(temp.SizeOfCode)  # 26 所有含代码的节的总大小  0.7156331053996698
+    features.append(temp.SizeOfInitializedData)  # 27 所有含已初始化数据的节的总大小   0.7092666823862297
     features.append(temp.SizeOfUninitializedData)  # 28 所有含未初始化数据的节的大小
-    features.append(temp.AddressOfEntryPoint)  # 29 程序执行入口RVA
+    features.append(temp.AddressOfEntryPoint)  # 29 程序执行入口RVA   0.8024050931384108
     features.append(temp.BaseOfCode)  # 30 代码的区块的起始RVA
     # features.append(temp.BaseOfData)  # 数据的区块的起始RVA 源码显示64位PE文件无该字段，所以不选取
-    features.append(temp.ImageBase)  # 31 程序的首选装载地址
+    features.append(temp.ImageBase)  # 31 程序的首选装载地址 0.850742749351568
     features.append(temp.SectionAlignment)  # 32 内存中的区块的对齐大小
     features.append(temp.FileAlignment)  # 33 文件中的区块的对齐大小
-    features.append(temp.MajorOperatingSystemVersion)  # 34 要求操作系统最低版本号的主版本号
-    features.append(temp.MinorOperatingSystemVersion)  # 35 要求操作系统最低版本号的副版本号
-    features.append(temp.MajorImageVersion)  # 36 可运行于操作系统的主版本号
-    features.append(temp.MinorImageVersion)  # 37 可运行于操作系统的次版本号
-    features.append(temp.MajorSubsystemVersion)  # 38 要求最低子系统版本的主版本号
-    features.append(temp.MinorSubsystemVersion)  # 39 要求最低子系统版本的次版本号
+    features.append(temp.MajorOperatingSystemVersion)  # 34 要求操作系统最低版本号的主版本号    0.9438811601037491
+    features.append(temp.MinorOperatingSystemVersion)  # 35 要求操作系统最低版本号的副版本号    0.894600330110823
+    features.append(temp.MajorImageVersion)  # 36 可运行于操作系统的主版本号 0.87314312662108
+    features.append(temp.MinorImageVersion)  # 37 可运行于操作系统的次版本号 0.8521575100212214
+    features.append(temp.MajorSubsystemVersion)  # 38 要求最低子系统版本的主版本号    0.9587361471351097
+    features.append(temp.MinorSubsystemVersion)  # 39 要求最低子系统版本的次版本号    0.8818674840839424
     features.append(temp.Reserved1)  # 40 莫须有字段，不被病毒利用的话一般为0
     features.append(temp.SizeOfImage)  # 41 映像装入内存后的总尺寸
     features.append(temp.SizeOfHeaders)  # 42 所有头 + 区块表的尺寸大小
-    features.append(temp.CheckSum)  # 43 映像的校检和
-    features.append(temp.Subsystem)  # 44 可执行文件期望的子系统
-    features.append(temp.DllCharacteristics)  # 45 DllMain()函数何时被调用，默认为 0
-    features.append(temp.SizeOfStackReserve)  # 46 初始化时的栈大小
+    features.append(temp.CheckSum)  # 43 映像的校检和 0.7762320207498231
+    features.append(temp.Subsystem)  # 44 可执行文件期望的子系统   0.7734024994105164
+    features.append(temp.DllCharacteristics)  # 45 DllMain()函数何时被调用，默认为 0   0.9665173308182032
+    features.append(temp.SizeOfStackReserve)  # 46 初始化时的栈大小 0.7708087715161519
     features.append(temp.SizeOfStackCommit)  # 47 初始化时实际提交的栈大小
     features.append(temp.SizeOfHeapReserve)  # 48 初始化时保留的堆大小
     features.append(temp.SizeOfHeapCommit)  # 49 初始化时实际提交的堆大小
