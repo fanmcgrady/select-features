@@ -1,7 +1,7 @@
 import csv
 import os
 
-from generate_data import extract_parser_features
+import extract_parser_features
 from utility import classifier
 
 MAL_PATH = "samples/benign"
@@ -124,3 +124,20 @@ def generate_data():
         if len(features) != 111: print("{}: {}".format(len(features), f))
         data.append(features)
     return data
+
+
+# 处理dll字典
+def Imported_DLL_and_API(pe):
+    dlls = set()
+    apis = set()
+    try:
+        temp = pe.DIRECTORY_ENTRY_IMPORT
+    except:
+        return dlls, apis
+
+    for i in temp:
+        if i.dll: dlls.add(str(i.dll.upper(), encoding="utf8"))
+        for j in i.imports:
+            if j.name: apis.add(str(j.name.upper(), encoding="utf8"))
+
+    return dlls, apis
