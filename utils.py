@@ -156,11 +156,13 @@ def judge_data_directory():
         num += 1
         try:
             pe = pefile.PE(MAL_PATH + "/" + f)
-            temp = pe.DIRECTORY_ENTRY_RESOURCE
-            print("yes: {}".format(temp))
+            if hasattr(pe, 'DIRECTORY_ENTRY_RESOURCE'):
+                print("yes")
+            else:
+                print("no")
             count += 1
         except:
-            print("no")
+            print("except")
 
     print(count / total)
 
@@ -173,10 +175,12 @@ def judge_data_directory():
         num += 1
         try:
             pe = pefile.PE(BENI_PATH + "/" + f)
-            temp = pe.DIRECTORY_ENTRY_RESOURCE
-            print("yes".format(temp))
+            if hasattr(pe, 'DIRECTORY_ENTRY_RESOURCE'):
+                print("yes")
+            else:
+                print("no")
             count += 1
         except:
-            print("no")
+            print("except")
 
     print(count / total)
