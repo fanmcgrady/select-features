@@ -2,10 +2,10 @@ import pickle
 
 import pefile
 
-with open("intersection-top20.pkl", 'rb') as f:
+with open("result/dll_api/intersection-top30.pkl", 'rb') as f:
     dll_dict = pickle.load(f)
 
-with open("selected api dict.pkl", 'rb') as f:
+with open("result/dll_api/top30-mal-info-dll.pkl", 'rb') as f:
     api_dict = pickle.load(f)
 
 
