@@ -1,8 +1,10 @@
-import pefile
-import os
-from generate_data import extract_dll
-import pickle
 import math
+import os
+import pickle
+
+import pefile
+
+import utils
 
 mal_path = "samples/malicious"
 beni_path = "samples/benign"
@@ -23,7 +25,7 @@ def get_all_dll():
         print("malicious count = {}".format(count))
         count += 1
         pe = pefile.PE(mal_path + "/" + f)
-        imports, apis = extract_dll.Imported_DLL_and_API(pe)
+        imports, apis = utils.Imported_DLL_and_API(pe)
 
         for i in imports:
             value = mal_dll_dict.get(i, 0)
@@ -39,7 +41,7 @@ def get_all_dll():
         print("benign count = {}".format(count))
         count += 1
         pe = pefile.PE(beni_path + "/" + f)
-        imports, apis = extract_dll.Imported_DLL_and_API(pe)
+        imports, apis = utils.Imported_DLL_and_API(pe)
 
         for i in imports:
             value = beni_dll_dict.get(i, 0)

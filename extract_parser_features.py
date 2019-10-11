@@ -224,7 +224,7 @@ def Resources(pe):
     return features
 
 
-# 导入的 DLL，20个指标，选择与软件安全可能相关和信息增益较大的 20 个 DLL
+# 导入的 DLL，30个指标，选择与软件安全可能相关和信息增益较大的 30 个 DLL
 # 导入的 DLL 总数，1个指标，统计该样本导入的 DLL 总数
 # 导入的 API 总数，1个指标，统计该样本导入的 API 总数
 def Imported_DLL_and_API(pe):
