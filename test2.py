@@ -16,4 +16,5 @@ if __name__ == '__main__':
     #             f.write(" > 0.7")
     #         f.write("\n")
 
-    utils.judge_data_directory()
+    # utils.judge_data_directory()
+    utils.judge_sections()

@@ -184,3 +184,30 @@ def judge_data_directory():
             print("except")
 
     print(count / total)
+
+
+# 判断section的提取情况
+def judge_sections():
+    files = os.listdir(MAL_PATH)
+    num = 1
+    for f in files:
+        if num % 1000 == 0: print(num)
+        num += 1
+        try:
+            pe = pefile.PE(MAL_PATH + "/" + f)
+            features = extract_parser_features.Sections(pe)
+            print("{}/{}:{}".format(str(features).count("0"), len(features), features))
+        except Exception as e:
+            print("except: {}".format(e))
+
+    files = os.listdir(BENI_PATH)
+    num = 1
+    for f in files:
+        if num % 1000 == 0: print(num)
+        num += 1
+        try:
+            pe = pefile.PE(BENI_PATH + "/" + f)
+            features = extract_parser_features.Sections(pe)
+            print("{}/{}:{}".format(str(features).count("0"), len(features), features))
+        except Exception as e:
+            print("except: {}".format(e))
