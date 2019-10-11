@@ -156,11 +156,13 @@ def judge_data_directory():
         num += 1
         try:
             pe = pefile.PE(MAL_PATH + "/" + f)
-            temp = pe.DIRECTORY_ENTRY_RESOURCE
-            print("yes: {}".format(temp))
+            if hasattr(pe, 'DIRECTORY_ENTRY_RESOURCE'):
+                print("yes")
+            else:
+                print("no")
             count += 1
         except:
-            print("no")
+            print("except")
 
     print(count / total)
 
@@ -173,10 +175,72 @@ def judge_data_directory():
         num += 1
         try:
             pe = pefile.PE(BENI_PATH + "/" + f)
-            temp = pe.DIRECTORY_ENTRY_RESOURCE
-            print("yes".format(temp))
+            if hasattr(pe, 'DIRECTORY_ENTRY_RESOURCE'):
+                print("yes")
+            else:
+                print("no")
             count += 1
         except:
-            print("no")
+            print("except")
 
     print(count / total)
+
+
+# 判断section的提取情况
+def judge_sections():
+    files = os.listdir(MAL_PATH)
+    num = 1
+    sections_dict = {}
+    for f in files:
+        if num % 1000 == 0: print(num)
+        num += 1
+        sections_array = []
+        try:
+            pe = pefile.PE(MAL_PATH + "/" + f)
+            # features = extract_parser_features.Sections(pe)
+            # print("{}/{}:{}".format(count_zero(features), len(features), features))
+            sections = pe.sections
+            for f in sections:
+                name = str(f.Name, encoding="utf8").strip('\x00')
+                sections_array.append(name)
+                count = sections_dict.get(name, 0)
+                sections_dict[name] = count + 1
+            print(sections_array)
+
+        except Exception as e:
+            print("except: {}".format(e))
+
+    print(sections_dict)
+
+    files = os.listdir(BENI_PATH)
+    num = 1
+    sections_dict = {}
+    for f in files:
+        if num % 1000 == 0: print(num)
+        num += 1
+        sections_array = []
+        try:
+            pe = pefile.PE(BENI_PATH + "/" + f)
+            # features = extract_parser_features.Sections(pe)
+            # print("{}/{}:{}".format(count_zero(features), len(features), features))
+            sections = pe.sections
+            for f in sections:
+                name = str(f.Name, encoding="utf8").strip('\x00')
+                sections_array.append(name)
+                count = sections_dict.get(name, 0)
+                sections_dict[name] = count + 1
+            print(sections_array)
+        except Exception as e:
+            print("except: {}".format(e))
+
+    print(sections_dict)
+
+
+# 计算数组中0的个数
+def count_zero(array):
+    count = 0
+    for i in array:
+        if i == 0:
+            count += 1
+
+    return count

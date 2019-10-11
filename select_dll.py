@@ -57,32 +57,32 @@ def get_all_dll():
     # print(len(beni_api_dict))
     #
     # 保存
-    with open("all-mal-dll.pkl", 'wb') as f:
+    with open("result/dll_api/all-mal-dll.pkl", 'wb') as f:
         pickle.dump(mal_dll_dict, f, pickle.HIGHEST_PROTOCOL)
 
-    with open("all-mal-api.pkl", 'wb') as f:
+    with open("result/dll_api/all-mal-api.pkl", 'wb') as f:
         pickle.dump(mal_api_dict, f, pickle.HIGHEST_PROTOCOL)
 
-    with open("all-beg-dll.pkl", 'wb') as f:
+    with open("result/dll_api/all-beg-dll.pkl", 'wb') as f:
         pickle.dump(beni_dll_dict, f, pickle.HIGHEST_PROTOCOL)
 
-    with open("all-beg-api.pkl", 'wb') as f:
+    with open("result/dll_api/all-beg-api.pkl", 'wb') as f:
         pickle.dump(beni_api_dict, f, pickle.HIGHEST_PROTOCOL)
 
 
 # step2：计算所有恶意样本的信息增益
 def get_mal_info():
     # 读取
-    with open("all-mal-dll.pkl", 'rb') as f:
+    with open("result/dll_api/all-mal-dll.pkl", 'rb') as f:
         mal_dll_dict = pickle.load(f)
 
-    with open("all-mal-api.pkl", 'rb') as f:
+    with open("result/dll_api/all-mal-api.pkl", 'rb') as f:
         mal_api_dict = pickle.load(f)
 
-    with open("all-beg-dll.pkl", 'rb') as f:
+    with open("result/dll_api/all-beg-dll.pkl", 'rb') as f:
         beni_dll_dict = pickle.load(f)
 
-    with open("all-beg-api.pkl", 'rb') as f:
+    with open("result/dll_api/all-beg-api.pkl", 'rb') as f:
         beni_api_dict = pickle.load(f)
 
     # 信息熵计算
@@ -133,7 +133,7 @@ def get_mal_info():
     # 恶意样本中全部dll的信息增益字典：
     # key：dll名字
     # value：信息增益
-    with open("mal-info-dll.pkl", 'wb') as f:
+    with open("result/dll_api/mal-info-dll.pkl", 'wb') as f:
         pickle.dump(dll_dict, f, pickle.HIGHEST_PROTOCOL)
 
     for key in mal_api_dict.keys():
@@ -148,21 +148,17 @@ def get_mal_info():
         else:
             api_dict[key] = info(0, beni_api_dict[key])
 
-    with open("mal-info-api.pkl", 'wb') as f:
+    with open("result/dll_api/mal-info-api.pkl", 'wb') as f:
         pickle.dump(api_dict, f, pickle.HIGHEST_PROTOCOL)
-    print(api_dict)
-
 
 # step3：选出恶意样本top30信息增益
 def get_top30_mal_info():
     # 读取
-    with open("mal-info-dll.pkl", 'rb') as f:
+    with open("result/dll_api/mal-info-dll.pkl", 'rb') as f:
         dll_dict = pickle.load(f)
-    with open("mal-info-api.pkl", 'rb') as f:
+    with open("result/dll_api/mal-info-api.pkl", 'rb') as f:
         api_dict = pickle.load(f)
 
-    # print(len(dll_dict))
-    # print(len(api_dict))
     sorted_dll_dict = {}
     sorted_api_dict = {}
 
@@ -180,14 +176,11 @@ def get_top30_mal_info():
         count += 1
         if count == 30: break
 
-    # print(sorted_dll_dict)
-    # print(sorted_api_dict)
-
     # 保存排序好的dll信息增益字典，取前30个
-    with open("top30-mal-info-dll.pkl", 'wb') as f:
+    with open("result/dll_api/top30-mal-info-dll.pkl", 'wb') as f:
         pickle.dump(sorted_dll_dict, f, pickle.HIGHEST_PROTOCOL)
 
-    with open("top30-mal-info-api.pkl", 'wb') as f:
+    with open("result/dll_api/top30-mal-info-api.pkl", 'wb') as f:
         pickle.dump(sorted_api_dict, f, pickle.HIGHEST_PROTOCOL)
 
 
@@ -205,7 +198,7 @@ def get_intersection_top30():
             'USER32.DLL', 'VERSION.DLL', 'WININET.DLL', 'WINMM.DLL', 'WINREG.DLL', 'WINSOCK.DLL', 'WS2_32.DLL',
             'WSOCK32.DLL']
 
-    with open("mal-info-dll.pkl", 'rb') as f:
+    with open("result/dll_api/mal-info-dll.pkl", 'rb') as f:
         dll_dict = pickle.load(f)
 
     dict = {}  # 取现有dict和list的交集
@@ -226,29 +219,12 @@ def get_intersection_top30():
         count += 1
         if count == 30: break
 
-    with open("intersection-top30.pkl", 'wb') as f:  # 这个dict是和list取交集之后的
+    with open("result/dll_api/intersection-top30.pkl", 'wb') as f:  # 这个dict是和list取交集之后的
         pickle.dump(sorted_dll_dict, f, pickle.HIGHEST_PROTOCOL)
-
-    with open("intersection-top30.pkl", 'rb') as f:
-        dll_dict = pickle.load(f)
-
-    # num = 142
-    # for key in dll_dict.keys():
-    #     print("{}:{}".format(num, key))
-    #     num += 1
-
-    # with open("selected dll dict(new).pkl", 'rb') as f:
-    #     dll_dict = pickle.load(f)
-    #
-    # num = 142
-    # for key in dll_dict.keys():
-    #     print("{}:{}".format(num, key))
-    #     num += 1
-
 
 if __name__ == '__main__':
     # step1
-    # get_all_dll()
+    get_all_dll()
     # step2
     get_mal_info()
     # step3

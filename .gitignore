@@ -1,9 +1,5 @@
 .DS_Store
-samples
 samples/
-no use/
-venv/
 *.xml
 *.pyc
-*.pkl
 result.txt
