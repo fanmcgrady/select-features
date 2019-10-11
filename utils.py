@@ -1,6 +1,8 @@
 import csv
 import os
 
+import pefile
+
 import extract_parser_features
 from utility import classifier
 
@@ -141,3 +143,40 @@ def Imported_DLL_and_API(pe):
             if j.name: apis.add(str(j.name.upper(), encoding="utf8"))
 
     return dlls, apis
+
+
+# 判断是否有数据目录
+def judge_data_directory():
+    files = os.listdir(MAL_PATH)
+    total = len(files)
+    count = 0
+    num = 1
+    for f in files:
+        if num % 1000 == 0: print(num)
+        num += 1
+        try:
+            pe = pefile.PE(f)
+            temp = pe.DIRECTORY_ENTRY_RESOURCE
+            print("yes")
+            count += 1
+        except:
+            print("no")
+
+    print(count / total)
+
+    files = os.listdir(BENI_PATH)
+    total = len(files)
+    count = 0
+    num = 1
+    for f in files:
+        if num % 1000 == 0: print(num)
+        num += 1
+        try:
+            pe = pefile.PE(f)
+            temp = pe.DIRECTORY_ENTRY_RESOURCE
+            print("yes")
+            count += 1
+        except:
+            print("no")
+
+    print(count / total)

@@ -1,9 +1,12 @@
 import binascii
-import os
 import math
+import os
+
 from capstone import *
 
-def extract(file, sum_of_file, topnum_byte_feature_dict, all_byte_feature_dict, topnum_op_feature_dict, all_op_feature_dict, N=4):
+
+def extract(file, sum_of_file, topnum_byte_feature_dict, all_byte_feature_dict, topnum_op_feature_dict,
+            all_op_feature_dict, N=4):
     # n-grams特征列表
     features = []
     # 将PE文件的字节码特征提取并加入，是一个1Xtop_num的一维向量
@@ -14,7 +17,7 @@ def extract(file, sum_of_file, topnum_byte_feature_dict, all_byte_feature_dict, 
 
 
 # 用于计算在所有文件中的所有n-grams字节码短序列出现的次数（文档频率）
-def countByteDF(paths, N, top_num):
+def count_byte_DF(paths, N, top_num):
     # 存放数据集中各个出现过的短序列的次数
     all_feature_dict = {}
     # 存放最高出现次数的top_num个短序列
@@ -53,8 +56,8 @@ def countByteTF(file, N):
     cur = 0
     # 统计出现过的短字符次数，重复计数，如AE30的短序列之前出现过，这次也要计数
     count = 0
-    while (cur <= len(hex_string)-N):
-    # 用大小为N的滑动窗口扫描，截取大小为N的特征
+    while (cur <= len(hex_string) - N):
+        # 用大小为N的滑动窗口扫描，截取大小为N的特征
         temp = hex_string[cur:cur + N]
         # 计数加1
         count += 1
@@ -78,8 +81,7 @@ def countByteIDF(pattern, sum_of_file, topnum_feature_dict, all_feature_dict):
         d = all_feature_dict[pattern]
     else:
         d = 0
-    return math.log((sum_of_file/d))
-
+    return math.log(sum_of_file / d)
 
 
 # 用于计算单个文件在特征字典中的所有字节码短序列的TF*IDF的值
@@ -91,13 +93,13 @@ def countByteTFplusIDF(file, sum_of_file, topnum_feature_dict, all_feature_dict,
         hex = str.upper(binascii.b2a_hex(byte).decode('ascii'))
     cur = 0
     # 必须先扫描一次该文件，统计该文件中每个字节码短序列出现的频率
-    tf_dict = countByteDF(file, N)
-    while cur <= len(hex)-N:
-        temp = hex[cur:cur+N]
+    tf_dict = countByteTF(file, N)
+    while cur <= len(hex) - N:
+        temp = hex[cur:cur + N]
         if temp in topnum_feature_dict.keys():
             TF = tf_dict.get(temp)
             IDF = countByteIDF(temp, sum_of_file, topnum_feature_dict, all_feature_dict)
-            topnum_feature_dict[temp] = TF*IDF
+            topnum_feature_dict[temp] = TF * IDF
         else:
             continue
         cur += 1
@@ -176,7 +178,6 @@ def countOpTF(file, N):
     return tf_dict
 
 
-
 # 计算IDF值，即：用于计算出现某个操作码短序列的文件在所有文件中的比值倒数的对数值
 # log(D/d)  D为总文件数，小d为出现了某个操作码短序列的文件总数
 def countOpIDF(pattern, sum_of_file, topnum_feature_dict, all_feature_dict):
@@ -201,13 +202,13 @@ def countOpTFplusIDF(file, sum_of_file, topnum_feature_dict, all_feature_dict, N
     cur = 0
     # 必须先扫描一次该文件，统计该文件中每个操作码短序列出现的频率
     tf_dict = countOpDF(file, N)
-    while cur <= len(op_list)-N:
-        temp = op_list[cur:cur+N]
+    while cur <= len(op_list) - N:
+        temp = op_list[cur:cur + N]
         temp = ' '.join(temp)
         if temp in topnum_feature_dict.keys():
             TF = tf_dict.get(temp)
             IDF = countOpIDF(temp, sum_of_file, topnum_feature_dict, all_feature_dict)
-            topnum_feature_dict[temp] = TF*IDF
+            topnum_feature_dict[temp] = TF * IDF
         else:
             continue
         cur += 1
@@ -215,12 +216,3 @@ def countOpTFplusIDF(file, sum_of_file, topnum_feature_dict, all_feature_dict, N
         # 一个长度为1Xtop_num的列表
         feature.append(val)
     return feature
-
-
-
-
-
-
-
-
-

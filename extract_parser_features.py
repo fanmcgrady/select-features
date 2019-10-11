@@ -135,17 +135,20 @@ def Data_Directory(pe):
     return features
 
 
-# .text 节/.data 节/.rsrc 节，27 个指标，选择该部分的所有属性
+# .text 节/.data 节/.rsrc 节，45 个指标，选择该部分的所有属性
 # .idata/.rdata/.reloc
 def Sections(pe):
     text = []
     data = []
     rsrc = []
+    rdata = []
+    reloc = []
     sections = pe.sections
 
     for f in sections:
         name = str(f.Name, encoding="utf8").strip('\x00')
-        if name == '.text' or name == '.data' or name == '.rsrc':
+        if name == '.text' or name == '.data' or name == '.rsrc' \
+                or name == '.rdata' or name == '.reloc':
             list = []
             # list.append(f.Misc) # 与Misc_VirtualSize相同，不选取
             # list.append(f.Misc_PhysicalAddress) # 与Misc_VirtualSize相同，不选取
@@ -161,10 +164,14 @@ def Sections(pe):
 
             if name == '.text':
                 text = list
-            elif name == '.dara':
+            elif name == '.data':
                 data = list
-            else:
+            elif name == '.rsrc':
                 rsrc = list
+            elif name == '.rdata':
+                rdata = list
+            elif name == '.reloc':
+                reloc = list
 
     if len(text) == 0:
         for i in range(9):
@@ -175,15 +182,19 @@ def Sections(pe):
     if len(rsrc) == 0:
         for i in range(9):
             rsrc.append(0)
+    if len(rdata) == 0:
+        for i in range(9):
+            rdata.append(0)
+    if len(reloc) == 0:
+        for i in range(9):
+            reloc.append(0)
 
     text.extend(data)
     text.extend(rsrc)
+    text.extend(rdata)
+    text.extend(reloc)
 
     return text
-
-
-##################################
-# 一下两部分指标是否合适，有待探讨
 
 
 # 资源目录表，22个指标，选择调用的资源的个数，
@@ -191,16 +202,15 @@ def Sections(pe):
 def Resources(pe):
     # 120 - 141
     features = []
-    # print(len(features))
     types = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 17, 19, 20, 21, 22, 23, 24]
     try:
         temp = pe.DIRECTORY_ENTRY_RESOURCE
     except:
         features.append(0)
-        for i in types:
+        for _ in types:
             features.append(0)
         return features
-    # print(len(features))
+
     features.append(temp.struct.NumberOfNamedEntries + temp.struct.NumberOfIdEntries)
     for i in types:
         exist = False
@@ -211,7 +221,6 @@ def Resources(pe):
                 break
         if not exist:
             features.append(0)
-    # print(len(features))
     return features
 
 

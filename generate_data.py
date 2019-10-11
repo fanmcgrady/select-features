@@ -1,4 +1,5 @@
 import os
+
 import extract_n_gram
 import utils
 from extract import Extract
@@ -28,7 +29,7 @@ for path in paths:
     sum_of_file += len(file_list)
 
 # 计算字节码和操作码在样本中出现的频率
-topnum_byte_feature_dict, all_byte_feature_dict = extract_n_gram.countByteDF(paths, N, top_num)
+topnum_byte_feature_dict, all_byte_feature_dict = extract_n_gram.count_byte_DF(paths, N, top_num)
 topnum_op_feature_dict, all_op_feature_dict = extract_n_gram.countOpDF(paths, N, top_num)
 
 

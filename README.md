@@ -24,3 +24,7 @@
     * Raman, 2012: http://2012.infosecsouthwest.com/files/speaker_materials/ISSW2012_Selecting_Features_to_Classify_Malware.pdf
     * Saxe and Berlin, 2015: https://arxiv.org/pdf/1508.03096.pdf
 1. 过滤掉单个指标分类70%的指标
+
+# 疑问
+1. IDF
+   * 小d为出现了某个字节码短序列的文件总数
