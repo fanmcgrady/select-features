@@ -1,12 +1,12 @@
+import pickle
+
 import pefile
 
+with open("intersection-top20.pkl", 'rb') as f:
+    dll_dict = pickle.load(f)
 
-# with open("intersection-top20.pkl", 'rb') as f:
-#     dll_dict = pickle.load(f)
-
-
-# with open("selected api dict.pkl", 'rb') as f:
-#     api_dict = pickle.load(f)
+with open("selected api dict.pkl", 'rb') as f:
+    api_dict = pickle.load(f)
 
 
 # 解析pe文件，提取相应指标
@@ -23,9 +23,9 @@ def extract(file):
     # print(len(features))
     features.extend(Sections(pe))
     # print(len(features))
-    # features.extend(Resources(pe))
+    features.extend(Resources(pe))
     # print(len(features))
-    # features.extend(Imported_DLL_and_API(pe))
+    features.extend(Imported_DLL_and_API(pe))
     # print(len(features))
 
     return features
@@ -255,18 +255,18 @@ def Imported_DLL_and_API(pe):
         if not exist:
             dll.append(0)
 
-    # for key in api_dict.keys():
-    #     exist = False
-    #     for i in apis:
-    #         if i == key:
-    #             api.append(1)
-    #             exist = True
-    #             break
-    #     if not exist:
-    #         api.append(0)
+    for key in api_dict.keys():
+        exist = False
+        for i in apis:
+            if i == key:
+                api.append(1)
+                exist = True
+                break
+        if not exist:
+            api.append(0)
 
     result = dll
-    # result.extend(api)
+    result.extend(api)
     result.append(len(dlls))
     result.append(len(apis))
 

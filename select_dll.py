@@ -153,8 +153,8 @@ def get_mal_info():
     print(api_dict)
 
 
-# step3：选出恶意样本top20信息增益
-def get_top20_mal_info():
+# step3：选出恶意样本top30信息增益
+def get_top30_mal_info():
     # 读取
     with open("mal-info-dll.pkl", 'rb') as f:
         dll_dict = pickle.load(f)
@@ -166,33 +166,33 @@ def get_top20_mal_info():
     sorted_dll_dict = {}
     sorted_api_dict = {}
 
-    # 选取20个
+    # 选取30个
     sorted_dll = sorted(dll_dict.items(), key=lambda x: x[1], reverse=True)
     count = 0
     for i in sorted_dll:
         sorted_dll_dict[i[0]] = i[1]
         count += 1
-        if count == 20: break
+        if count == 30: break
     count = 0
     sorted_api = sorted(api_dict.items(), key=lambda x: x[1], reverse=True)
     for i in sorted_api:
         sorted_api_dict[i[0]] = i[1]
         count += 1
-        if count == 20: break
+        if count == 30: break
 
     # print(sorted_dll_dict)
     # print(sorted_api_dict)
 
-    # 保存排序好的dll信息增益字典，取前20个
-    with open("top20-mal-info-dll.pkl", 'wb') as f:
+    # 保存排序好的dll信息增益字典，取前30个
+    with open("top30-mal-info-dll.pkl", 'wb') as f:
         pickle.dump(sorted_dll_dict, f, pickle.HIGHEST_PROTOCOL)
 
-    with open("top20-mal-info-api.pkl", 'wb') as f:
+    with open("top30-mal-info-api.pkl", 'wb') as f:
         pickle.dump(sorted_api_dict, f, pickle.HIGHEST_PROTOCOL)
 
 
-# step4：求恶意样本dll与选定的dll的交集top20
-def get_intersection_top20():
+# step4：求恶意样本dll与选定的dll的交集top30
+def get_intersection_top30():
     list = ['ADVAP132.DLL', 'AWFAXP32.DLL', 'AWFXAB32.DLL', 'AWPWD32.DLL', 'AWRESX32.DLL', 'AWUTIL32.DLL', 'BHNETB.DLL',
             'BHSUPP.DLL', 'CCAPI.DLL', 'CCEI.DLL', 'CCPSH.DLL', 'CCTN20.DLL', 'CMC.DLL', 'COMCTL32.DLL', 'COMDLG32.DLL',
             'CRTDLL.DLL', 'DCIMAN.DLL', 'DCIMAN32.DLL', 'DSKMAINT.DLL', 'GDI32.DLL', 'GROUPPOL.DLL', 'HYPERTERM.DLL',
@@ -224,12 +224,12 @@ def get_intersection_top20():
     for i in sorted_dll:
         sorted_dll_dict[i[0]] = i[1]
         count += 1
-        if count == 20: break
+        if count == 30: break
 
-    with open("intersection-top20.pkl", 'wb') as f:  # 这个dict是和list取交集之后的
+    with open("intersection-top30.pkl", 'wb') as f:  # 这个dict是和list取交集之后的
         pickle.dump(sorted_dll_dict, f, pickle.HIGHEST_PROTOCOL)
 
-    with open("intersection-top20.pkl", 'rb') as f:
+    with open("intersection-top30.pkl", 'rb') as f:
         dll_dict = pickle.load(f)
 
     # num = 142
@@ -252,6 +252,6 @@ if __name__ == '__main__':
     # step2
     get_mal_info()
     # step3
-    get_top20_mal_info()
+    get_top30_mal_info()
     # step4
-    get_intersection_top20()
+    get_intersection_top30()
