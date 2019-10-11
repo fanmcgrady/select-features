@@ -196,7 +196,7 @@ def judge_sections():
         try:
             pe = pefile.PE(MAL_PATH + "/" + f)
             features = extract_parser_features.Sections(pe)
-            print("{}/{}:{}".format(str(features).count("0"), len(features), features))
+            print("{}/{}:{}".format(count_zero(features), len(features), features))
         except Exception as e:
             print("except: {}".format(e))
 
@@ -208,6 +208,16 @@ def judge_sections():
         try:
             pe = pefile.PE(BENI_PATH + "/" + f)
             features = extract_parser_features.Sections(pe)
-            print("{}/{}:{}".format(str(features).count("0"), len(features), features))
+            print("{}/{}:{}".format(count_zero(features), len(features), features))
         except Exception as e:
             print("except: {}".format(e))
+
+
+# 计算数组中0的个数
+def count_zero(array):
+    count = 0
+    for i in array:
+        if i == 0:
+            count += 1
+
+    return count
