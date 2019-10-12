@@ -6,8 +6,8 @@ import pefile
 import extract_parser_features
 from utility import classifier
 
-MAL_PATH = "samples/benign"
-BENI_PATH = "samples/malicious"
+MAL_PATH = "samples/malicious"
+BENI_PATH = "samples/benign"
 
 
 # 读取csv

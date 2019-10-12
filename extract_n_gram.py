@@ -143,7 +143,8 @@ def count_op_DF(paths, N, top_num):
             temp_feature_dict = {}
             with open(os.path.join(path, file), 'rb') as cur_file:
                 byte = cur_file.read()
-                for op in md.disasm(byte, 0x00):
+                hex = binascii.b2a_hex(byte)
+                for op in md.disasm(hex, 0x00):
                     op_list.append(op.mnemonic)
             cur = 0
             while (cur <= len(op_list) - N):
@@ -183,7 +184,8 @@ def count_op_TF(file, N):
     md = Cs(CS_ARCH_X86, CS_MODE_32)
     with open(file, 'rb') as cur_file:
         byte = cur_file.read()
-        for op in md.disasm(byte, 0x00):
+        hex = binascii.b2a_hex(byte)
+        for op in md.disasm(hex, 0x00):
             op_list.append(op.mnemonic)
     cur = 0
     # 统计出现过的短字符次数，重复计数，如AE30的短序列之前出现过，这次也要计数
@@ -226,11 +228,12 @@ def count_op_TF_plus_IDF(file, sum_of_file, topnum_feature_dict, count_feature_d
     md = Cs(CS_ARCH_X86, CS_MODE_32)
     with open(file, 'rb') as cur_file:
         byte = cur_file.read()
-        for op in md.disasm(byte, 0x00):
+        hex = binascii.b2a_hex(byte)
+        for op in md.disasm(hex, 0x00):
             op_list.append(op.mnemonic)
     cur = 0
     # 必须先扫描一次该文件，统计该文件中每个操作码短序列出现的频率
-    tf_dict = count_op_DF(file, N)
+    tf_dict = count_op_TF(file, N)
     while cur <= len(op_list) - N:
         temp = op_list[cur:cur + N]
         temp = ' '.join(temp)
