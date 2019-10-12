@@ -47,7 +47,7 @@ for f in files:
         print("benign: {}".format(count))
     count += 1
     # 第一个位置为文件名
-    features.append(f)
+    # features.append(f)
     try:
         # 调用extract对象去处理正常样本文件
         features.extend(extract(utils.BENI_PATH + "/" + f))
@@ -66,7 +66,7 @@ for f in files:
         print("malicious: {}".format(count))
     count += 1
     # 第一个位置为文件名
-    features.append(f)
+    # features.append(f)
     try:
         # 调用extract对象去处理恶意样本文件
         features.extend(extract(utils.MAL_PATH + "/" + f))
