@@ -50,8 +50,8 @@ for f in files:
     try:
         # 调用extract对象去处理正常样本文件
         features = extract(utils.BENI_PATH + "/" + f)
-    except:
-        print("ERROR: {}".format(f))
+    except Exception as e:
+        print("ERROR: {} {}".format(f, e))
     features.append(0)
     data.append(features)
 
@@ -68,20 +68,11 @@ for f in files:
     try:
         # 调用extract对象去处理恶意样本文件
         features = extract(utils.MAL_PATH + "/" + f)
-    except:
-        print("ERROR: {}".format(f))
+    except Exception as e:
+        print("ERROR: {} {}".format(f, e))
     # 打上标签
     features.append(1)
     data.append(features)
 
 # 在data文件夹中生成我们训练要用的csv文件
 utils.save_csv('data/training_data.csv', data)
-
-
-
-
-
-
-
-
-
