@@ -5,14 +5,14 @@ import os
 from capstone import *
 
 
-def extract(file, sum_of_file, topnum_byte_feature_dict, count_byte_feature_dict, topnum_op_feature_dict,
-            count_op_feature_dict, N=4):
+def extract(file, sum_of_file, topnum_byte_feature_dict, count_byte_feature_dict, topnum_op_feature_dict=None,
+            count_op_feature_dict=None, N=4):
     # n-grams特征列表
     features = []
     # 将PE文件的字节码特征提取并加入，是一个1Xtop_num的一维向量
     features.extend(count_byte_TF_plus_IDF(file, sum_of_file, topnum_byte_feature_dict, count_byte_feature_dict, N))
     # 将PE文件的操作码特征提取并加入，也是一个1Xtop_num的一维向量
-    features.extend(count_op_TF_plus_IDF(file, sum_of_file, topnum_op_feature_dict, count_op_feature_dict, N))
+    # features.extend(count_op_TF_plus_IDF(file, sum_of_file, topnum_op_feature_dict, count_op_feature_dict, N))
     return features
 
 

@@ -9,7 +9,7 @@ paths = [utils.BENI_PATH, utils.MAL_PATH]
 # 滑动窗口长度
 N = 4
 # 选取的特征数
-top_num = 200
+top_num = 400
 # 用于统计样本文件的总数
 sum_of_file = 0
 # 用于暂存写入csv文件的每个文件的特征
@@ -30,12 +30,12 @@ for path in paths:
 
 # 计算字节码和操作码在样本中出现的频率，以及统计出现了某些操作码和字节码的文件数量
 topnum_byte_feature_dict, count_byte_feature_dict = extract_n_gram.count_byte_DF(paths, N, top_num)
-topnum_op_feature_dict, count_op_feature_dict = extract_n_gram.count_op_DF(paths, N, top_num)
+# topnum_op_feature_dict, count_op_feature_dict = extract_n_gram.count_op_DF(paths, N, top_num)
 
 
 # 生成一个extract对象用于提取特征
-extract = Extract(sum_of_file, topnum_byte_feature_dict, count_byte_feature_dict, topnum_op_feature_dict,
-                  count_op_feature_dict, N)
+extract = Extract(sum_of_file, topnum_byte_feature_dict, count_byte_feature_dict, topnum_op_feature_dict=None,
+                  count_op_feature_dict=None, N=4)
 
 # 处理正常样本
 files = os.listdir(utils.BENI_PATH)
