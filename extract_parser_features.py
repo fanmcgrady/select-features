@@ -5,9 +5,8 @@ import pefile
 with open("result/dll_api/intersection-top30.pkl", 'rb') as f:
     dll_dict = pickle.load(f)
 
-with open("result/dll_api/top30-mal-info-dll.pkl", 'rb') as f:
+with open("result/dll_api/top30-mal-info-api.pkl", 'rb') as f:
     api_dict = pickle.load(f)
-
 
 # 解析pe文件，提取相应指标
 def extract(file):
@@ -239,7 +238,7 @@ def Imported_DLL_and_API(pe):
         temp = pe.DIRECTORY_ENTRY_IMPORT
     except:
         result = []
-        for i in range(22):
+        for i in range(53):
             result.append(0)
         return result
     for i in temp:

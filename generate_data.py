@@ -40,8 +40,9 @@ extract = Extract(sum_of_file, topnum_byte_feature_dict, count_byte_feature_dict
 # 处理正常样本
 files = os.listdir(utils.BENI_PATH)
 count = 1
-features = []
+
 for f in files:
+    features = []
     if count % 100 == 0:
         print("benign: {}".format(count))
     count += 1
@@ -58,8 +59,9 @@ for f in files:
 # 处理恶意文件
 files = os.listdir(utils.MAL_PATH)
 count = 1
-features = []
+
 for f in files:
+    features = []
     if count % 100 == 0:
         print("malicious: {}".format(count))
     count += 1
