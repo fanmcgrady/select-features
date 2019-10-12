@@ -135,7 +135,7 @@ def Data_Directory(pe):
     return features
 
 
-# .text 节/.data 节/.rsrc 节，45 个指标，选择该部分的所有属性
+# .text 节/.data 节/.rsrc 节，45 + 1 = 46 个指标，选择该部分的所有属性
 # .idata/.rdata/.reloc
 def Sections(pe):
     text = []
@@ -145,6 +145,7 @@ def Sections(pe):
     reloc = []
     sections = pe.sections
 
+    other_section_count = 0
     for f in sections:
         name = str(f.Name, encoding="utf8").strip('\x00')
         if name == '.text' or name == '.data' or name == '.rsrc' \
@@ -172,6 +173,8 @@ def Sections(pe):
                 rdata = list
             elif name == '.reloc':
                 reloc = list
+        else:
+            other_section_count += 1
 
     if len(text) == 0:
         for i in range(9):
@@ -193,6 +196,8 @@ def Sections(pe):
     text.extend(rsrc)
     text.extend(rdata)
     text.extend(reloc)
+
+    text.append(other_section_count)
 
     return text
 
@@ -228,7 +233,6 @@ def Resources(pe):
 # 导入的 DLL 总数，1个指标，统计该样本导入的 DLL 总数
 # 导入的 API 总数，1个指标，统计该样本导入的 API 总数
 def Imported_DLL_and_API(pe):
-    # 142 - 163
     dlls = []
     apis = []
     try:
@@ -270,6 +274,4 @@ def Imported_DLL_and_API(pe):
     result.append(len(dlls))
     result.append(len(apis))
 
-    # print("dll = {}, api = {}".format(len(dll),len(api)))
-    # print(len(result))
     return result

@@ -17,4 +17,5 @@ if __name__ == '__main__':
     #         f.write("\n")
 
     # utils.judge_data_directory()
-    utils.judge_sections()
+    # utils.judge_sections()
+    utils.judge_dll()

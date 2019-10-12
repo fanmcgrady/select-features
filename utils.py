@@ -244,3 +244,18 @@ def count_zero(array):
             count += 1
 
     return count
+
+
+# 判断dll的提取情况
+def judge_dll():
+    files = os.listdir(MAL_PATH)
+    num = 1
+    for f in files:
+        if num % 1000 == 0: print(num)
+        num += 1
+        try:
+            pe = pefile.PE(MAL_PATH + "/" + f)
+            features = extract_parser_features.Imported_DLL_and_API(pe)
+            print("{}/{}:{}".format(count_zero(features), len(features), features))
+        except Exception as e:
+            print("except: {}".format(e))
