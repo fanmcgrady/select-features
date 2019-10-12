@@ -92,10 +92,10 @@ def count_byte_TF(file, N):
 # log(D/d)  D为总文件数，d为出现了某个字节码短序列的文件总数
 def count_byte_IDF(pattern, sum_of_file, topnum_feature_dict, count_feature_dict):
     # 如果在最终选择的特征库中存在该短序列，则查看字典取出出现频数
-    if topnum_feature_dict.get(pattern):
+    if pattern in topnum_feature_dict.keys():
         d = count_feature_dict[pattern]
     else:
-        d = 0
+        return 0
     return math.log(sum_of_file / d)
 
 
@@ -115,9 +115,9 @@ def count_byte_TF_plus_IDF(file, sum_of_file, topnum_feature_dict, count_feature
             TF = tf_dict.get(temp)
             IDF = count_byte_IDF(temp, sum_of_file, topnum_feature_dict, count_feature_dict)
             topnum_feature_dict[temp] = TF * IDF
+            cur += 1
         else:
-            continue
-        cur += 1
+            cur += 1
     for val in topnum_feature_dict.values():
         # 一个长度为1Xtop_num的列表
         feature.append(val)
