@@ -49,7 +49,7 @@ for f in files:
     features.append(f)
     try:
         # 调用extract对象去处理正常样本文件
-        features = extract(utils.BENI_PATH + "/" + f)
+        features.extend(extract(utils.BENI_PATH + "/" + f))
     except Exception as e:
         print("ERROR: {} {}".format(f, e))
     features.append(0)
@@ -67,7 +67,7 @@ for f in files:
     features.append(f)
     try:
         # 调用extract对象去处理恶意样本文件
-        features = extract(utils.MAL_PATH + "/" + f)
+        features.extend(extract(utils.MAL_PATH + "/" + f))
     except Exception as e:
         print("ERROR: {} {}".format(f, e))
     # 打上标签
