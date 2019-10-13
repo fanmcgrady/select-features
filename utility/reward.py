@@ -1,5 +1,3 @@
-from enum import Enum
-
 import numpy as np
 from sklearn import metrics
 from sklearn import tree
@@ -13,7 +11,7 @@ from utils import load_csv
 
 
 # 分类器方法枚举类，可以在这里添加其他方法
-class Classifier(Enum):
+class Classifier():
     RandomForest = RandomForestClassifier(random_state=0, n_estimators=500)
     SVC = SVC(kernel='rbf', probability=True, gamma='auto')
     KNN = KNeighborsClassifier()
