@@ -38,7 +38,7 @@ def count_byte_DF(paths, N, top_num):
                 # 用大小为N的滑动窗口扫描，截取大小为N的特征
                 temp = hex_string[cur:cur + N]
                 # 存入字典
-                if all_feature_dict.get(temp):
+                if temp in all_feature_dict.keys():
                     all_feature_dict[temp] += 1
                 else:
                     all_feature_dict[temp] = 1
@@ -48,7 +48,7 @@ def count_byte_DF(paths, N, top_num):
                 cur += 1
             # 将当前文件的特征统计加到全部文件的特征统计字典中
             for key in temp_feature_dict.keys():
-                if count_feature_dict.get(key):
+                if key in count_feature_dict.keys():
                     count_feature_dict[key] += temp_feature_dict[key]
                 else:
                     count_feature_dict[key] = temp_feature_dict[key]
