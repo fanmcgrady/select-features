@@ -43,7 +43,7 @@ count = 1
 
 for f in files:
     features = []
-    if count % 100 == 0:
+    if count % 10 == 0:
         print("benign: {}".format(count))
     count += 1
     # 第一个位置为文件名
@@ -62,7 +62,7 @@ count = 1
 
 for f in files:
     features = []
-    if count % 100 == 0:
+    if count % 10 == 0:
         print("malicious: {}".format(count))
     count += 1
     # 第一个位置为文件名
