@@ -1,7 +1,8 @@
-from utility import classifier as cls
+import random
+
 import numpy as np
 
-import random
+from utility import classifier as cls
 
 
 # action space 中的最后一个动作为终止
@@ -41,7 +42,7 @@ class MyEnv:
         reward = self.get_reward()
         if reward == -1:
             # print("no flag")
-            reward = cls.get_reward(self.state, self.classifier, self.data, self.max_count)
+            reward = cls.get_reward(self.state, self.data, self.classifier)
             self.add_dict(reward)
 
         # reward = random.random()*100

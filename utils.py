@@ -27,7 +27,6 @@ def load_csv(data_path):
             data.append(row)
     return data
 
-
 # 保存csv
 def save_csv(data_path, data):
     if os.path.exists(data_path):

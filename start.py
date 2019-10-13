@@ -1,6 +1,5 @@
 import argparse
 import time
-from enum import Enum
 
 import chainer
 import chainer.functions as F
@@ -10,12 +9,7 @@ from chainer import optimizers
 from chainerrl import replay_buffer, explorers
 
 from utility import env as Env, agent as DDQN, action_value as ActionValue
-
-
-class Classifier(Enum):
-    RandomForest = 0
-    KNN = 1
-
+from utility.reward import Classifier
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--result-file', type=str, default='result.txt')
@@ -29,8 +23,7 @@ feature_number = 601  # 特征总数量
 feature_max_count = args.max_feature  # 选取的特征数目大于该值时，reward为0，用于当特征数目在该范围内时，成功率最多可以到达多少
 MAX_EPISODE = 1000
 net_layers = [128, 64]
-classifier = Classifier.RandomForest
-
+classifier = Classifier.KNN
 
 # 每一轮逻辑如下
 # 1. 初始化环境，定义S和A两个list，用来保存过程中的state和action。进入循环，直到当前这一轮完成（done == True）
