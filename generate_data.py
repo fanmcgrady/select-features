@@ -73,7 +73,7 @@ for f in files:
     except Exception as e:
         print("ERROR: {} {}".format(f, e))
     # 打上标签
-    features.extend(1)
+    features.append(1)
     data.append(features)
 
 # 在data文件夹中生成我们训练要用的csv文件

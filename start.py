@@ -24,11 +24,11 @@ parser.add_argument('--gpu', type=int, default=-1)
 args = parser.parse_args()
 
 # 可变参数
-data = "generate_data/data_test.csv"
-feature_number = 163  # 特征总数量
+data = "data/training_data.csv"
+feature_number = 601  # 特征总数量
 feature_max_count = args.max_feature  # 选取的特征数目大于该值时，reward为0，用于当特征数目在该范围内时，成功率最多可以到达多少
 MAX_EPISODE = 1000
-net_layers = [64, 32]
+net_layers = [128, 64]
 classifier = Classifier.RandomForest
 
 
