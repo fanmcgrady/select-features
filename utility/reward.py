@@ -34,8 +34,8 @@ def get_reward(state,  # state: 标记指标是否选取的数组
 
     if count == 0:
         return 0
-    label = np.array(data)[:, -1]
-    data = np.array(data)[:, :-1]
+    label = np.array(data)[:, -1].astype(np.float64)
+    data = np.array(data)[:, :-1].astype(np.float64)
 
     return classify(data, label, classifier)
 
