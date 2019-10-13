@@ -8,7 +8,7 @@ from utility import classifier
 
 MAL_PATH = "samples/malicious"
 BENI_PATH = "samples/benign"
-
+SAMPLE_CSV = "data/training_data.csv"
 
 # 读取csv
 def load_csv(data_path):
@@ -22,8 +22,8 @@ def load_csv(data_path):
                     row[i] = True
                 elif row[i] == 'False':
                     row[i] = False
-                else:
-                    row[i] = int(row[i])
+                # else:
+                # row[i] = int(row[i])
             data.append(row)
     return data
 
