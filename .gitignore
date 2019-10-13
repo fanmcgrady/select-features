@@ -2,4 +2,5 @@
 samples/
 *.xml
 *.pyc
+*.csv
 result.txt
