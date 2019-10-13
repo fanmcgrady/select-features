@@ -4,7 +4,6 @@ import os
 import pefile
 
 import extract_parser_features
-from utility import classifier
 
 MAL_PATH = "samples/malicious"
 BENI_PATH = "samples/benign"
