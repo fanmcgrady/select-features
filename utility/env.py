@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from utility import classifier as cls
+from utility import reward as cls
 
 
 # action space 中的最后一个动作为终止
