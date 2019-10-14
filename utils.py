@@ -7,7 +7,7 @@ import extract_parser_features
 
 MAL_PATH = "samples/malicious"
 BENI_PATH = "samples/benign"
-SAMPLE_CSV = "data/training_data.csv"
+SAMPLE_CSV = "data/training_data_4grams.csv"
 
 # 读取csv
 def load_csv(data_path):
