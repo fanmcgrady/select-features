@@ -11,16 +11,20 @@ from chainerrl import replay_buffer, explorers
 from utility import env as Env, agent as DDQN, action_value as ActionValue
 from utility.reward import Classifier
 
+# linux命令行使用，复制以下命令即可执行
+# nohup python start.py --result-file KNN_10feature_64_plus_32.txt --max-feature 10 --gpu 1 --trainging-data training_data_4grams.csv --layer1-nodenum 64 --layer2-nodenum 32>training_log.txt 2>&1 &
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--result-file', type=str, default='result.txt')
 parser.add_argument('--max-feature', type=int, default=10)
 parser.add_argument('--gpu', type=int, default=-1)
+parser.add_argument('--training-data', type=str, default='training_data_4grams.csv')
 parser.add_argument('--layer1-nodenum', type=int, default=64)
 parser.add_argument('--layer2-nodenum', type=int, default=32)
 args = parser.parse_args()
 
 # 可变参数
-data = "data/training_data_4grams.csv"
+data = "data/" + args.training_data
 feature_number = 604  # 特征总数量
 feature_max_count = args.max_feature  # 选取的特征数目大于该值时，reward为0，用于当特征数目在该范围内时，成功率最多可以到达多少
 MAX_EPISODE = 1000
@@ -205,8 +209,9 @@ def main():
 if __name__ == '__main__':
     start_time = time.time()
     main()
-    elapsed = time.time() - start_time
-    print("elapsed: {}".format(elapsed))
+    # 统计训练用时，保留两位小数
+    elapsed = (round((time.time() - start_time) / 3600, 2))
+    print("elapsed: {} hours".format(elapsed))
     # 训练时间
     with open(args.result_file, 'a') as f:
-        f.write("Training elapsed:{} seconds".format(elapsed))
+        f.write("Training elapsed:{} hours".format(elapsed))

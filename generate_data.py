@@ -5,6 +5,8 @@ import extract_n_gram
 import utils
 from extract import Extract
 
+# linux命令行使用，输入以下命令即可使用
+# nohup python generate_data.py --n-grams 4 --top-num 400 --result-name training_data_4grams.csv>generate_log.txt 2>&1 &
 parser = argparse.ArgumentParser()
 parser.add_argument('--n-grams', type=int, default=4)
 parser.add_argument('--top-num', type=int, default=400)
