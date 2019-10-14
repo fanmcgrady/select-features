@@ -27,13 +27,18 @@ class MyEnv:
         return action
 
     def step(self, action_index):
-        if action_index == self.action_size - 1:  # 终止
+        # if action_index == self.action_size - 1:  # 终止
+        #     self.done = True
+        # else:
+        #     self.state[action_index] = 1
+        #     self.count += 1
+        #     if self.count == self.max_count:  # 已经到达选择数量上线
+        #         self.done = True
+
+        self.state[action_index] = 1
+        self.count += 1
+        if self.count == self.max_count:  # 已经到达选择数量上线
             self.done = True
-        else:
-            self.state[action_index] = 1
-            self.count += 1
-            if self.count == self.max_count:  # 已经到达选择数量上线
-                self.done = True
 
             # reward 默认为0
             # if current_count>self.max:

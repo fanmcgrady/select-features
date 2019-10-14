@@ -1,10 +1,10 @@
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
 from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
-from chainer import cuda
 import numpy as np
+from chainer import cuda
 from future import standard_library
 
 standard_library.install_aliases()
@@ -22,7 +22,7 @@ class DoubleDQN(double_dqn.DoubleDQN):
                     self.batch_states([state], self.xp, self.phi))
                 action_value.load_state(state)
                 q = float(action_value.max.data)
-                action = cuda.to_cpu(action_value.greedy_actions.data)[0]
+                action = cuda.to_cpu(action_value.greedy_actions_with_state.data)[0]
 
         # Update stats
         self.average_q *= self.average_q_decay
@@ -99,7 +99,7 @@ class DoubleDQN(double_dqn.DoubleDQN):
                     self.batch_states([state], self.xp, self.phi))
                 action_value.load_state(state)
                 q = float(action_value.max.data)
-                greedy_action = cuda.to_cpu(action_value.greedy_actions.data)[
+                greedy_action = cuda.to_cpu(action_value.greedy_actions_with_state.data)[
                     0]
 
         # Update stats
