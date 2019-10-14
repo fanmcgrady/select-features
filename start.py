@@ -15,14 +15,16 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--result-file', type=str, default='result.txt')
 parser.add_argument('--max-feature', type=int, default=10)
 parser.add_argument('--gpu', type=int, default=-1)
+parser.add_argument('--layer1-nodenum', type=int, default=64)
+parser.add_argument('--layer2-nodenum', type=int, default=32)
 args = parser.parse_args()
 
 # 可变参数
-data = "data/training_data.csv"
+data = "data/trainin_data_4grams.csv"
 feature_number = 604  # 特征总数量
 feature_max_count = args.max_feature  # 选取的特征数目大于该值时，reward为0，用于当特征数目在该范围内时，成功率最多可以到达多少
 MAX_EPISODE = 1000
-net_layers = [128, 64]
+net_layers = [args.layer1_nodenum, args.layer2_nodenum]
 classifier = Classifier.KNN
 
 # 每一轮逻辑如下

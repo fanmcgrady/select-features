@@ -1,15 +1,22 @@
+import argparse
 import os
 
 import extract_n_gram
 import utils
 from extract import Extract
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--n-grams', type=int, default=4)
+parser.add_argument('--top-num', type=int, default=400)
+parser.add_argument('--result-name', type=str, default='training_data_4grams.csv')
+args = parser.parse_args()
+
 # 训练样本路径
 paths = [utils.BENI_PATH, utils.MAL_PATH]
 # 滑动窗口长度
-N = 4
+N = args.n_grams
 # 选取的特征数
-top_num = 400
+top_num = args.top_num
 # 用于统计样本文件的总数
 sum_of_file = 0
 # 用于暂存写入csv文件的每个文件的特征
@@ -77,4 +84,4 @@ for f in files:
     data.append(features)
 
 # 在data文件夹中生成我们训练要用的csv文件
-utils.save_csv('data/training_data.csv', data)
+utils.save_csv('data/' + args.result_name, data)
