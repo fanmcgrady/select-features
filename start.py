@@ -198,15 +198,15 @@ def main():
     # 写入文件的最后一行
     with open(args.result_file, 'a') as f:
         f.write(
-            "The max reward of this train:{}, the average reward of this train:{}"
+            "The max reward of this train:{}, the average reward of this train:{}\n"
                 .format(max_reward, average_reward))
 
 
 if __name__ == '__main__':
     start_time = time.time()
     main()
-    elapsed = time.time() - start_time
+    elapsed = (time.time() - start_time) / 3600
     print("elapsed: {}".format(elapsed))
     # 训练时间
     with open(args.result_file, 'a') as f:
-        f.write("Training elapsed:{} seconds".format(elapsed))
+        f.write("Training elapsed:{} hours".format(elapsed))
