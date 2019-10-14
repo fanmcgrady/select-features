@@ -257,3 +257,11 @@ def judge_dll():
             print("{}/{}:{}".format(count_zero(features), len(features), features))
         except Exception as e:
             print("except: {}".format(e))
+
+
+# 记录到日志文件并打印出来
+def log(logfile, str):
+    print(str)
+    # 训练时间
+    with open(logfile, 'a') as f:
+        f.write(str + "\n")

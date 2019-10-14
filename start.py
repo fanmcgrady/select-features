@@ -8,6 +8,7 @@ import numpy as np
 from chainer import optimizers
 from chainerrl import replay_buffer, explorers
 
+import utils
 from utility import env as Env, agent as DDQN, action_value as ActionValue
 from utility.reward import Classifier
 
@@ -30,6 +31,7 @@ feature_max_count = args.max_feature  # 选取的特征数目大于该值时，r
 MAX_EPISODE = 1000
 net_layers = [args.layer1_nodenum, args.layer2_nodenum]
 classifier = Classifier.KNN
+
 
 # 每一轮逻辑如下
 # 1. 初始化环境，定义S和A两个list，用来保存过程中的state和action。进入循环，直到当前这一轮完成（done == True）
@@ -84,7 +86,6 @@ def main():
 
     def evaluate(env, agent, current):
         for i in range(1):
-            print("evaluate episode: {}".format(current))
             state = env.reset()
             terminal = False
             count = 0
@@ -93,31 +94,21 @@ def main():
                 if action != len(state): count += 1
                 state, reward, terminal = env.step(action)
 
-                print("action = {}".format(action, q))
-
                 if terminal:
-                    state_human = []
-                    for i in range(len(state)):
-                        if state[i] == 1:
-                            state_human.append(i + 1)
-                    print("reward = {}, state = {}, state count = {}".format(reward, state_human, len(state_human)))
-                    with open(args.result_file, 'a') as f:
-                        f.write(
-                            "--------------------------------------------------------------------------------------------------\n"
-                            "evaluate episode:{}, reward = {}, state count = {}, state = {}\n"
-                            "-------------------------------------------------------------------------------------------------\n"
-                                .format(current, reward, len(state_human), state_human)
-                        )
+                    state_human = [i + 1 for i in range(len(state)) if state[i] == 1]
+                    utils.log(args.result_file,
+                              "--------------------------------------------------------------------------------------------------\n"
+                              "evaluate episode:{}, reward = {}, state count = {}, state = {}"
+                              "-------------------------------------------------------------------------------------------------\n"
+                              .format(current, reward, len(state_human), state_human))
 
     def train_agent(env, agent):
         for episode in range(MAX_EPISODE):
             state = env.reset()
             terminal = False
-            start = time.time()
             reward = 0
             count = 0
             while not terminal:
-                # print("count is {}".format(count))
                 action, q, ga = agent.act_and_train(
                     state, reward)  # 此处action是否合法（即不能重复选取同一个指标）由agent判断。env默认得到的action合法。
                 if action != len(state): count += 1
@@ -126,22 +117,17 @@ def main():
                 # print("episode:{}, action:{}, greedy action:{}, reward = {}".format(episode, action, ga, reward))
 
                 if terminal:
-                    state_human = []
-                    for i in range(len(state)):
-                        if state[i] == 1:
-                            state_human.append(i + 1)
-                    with open(args.result_file, 'a') as f:
-                        f.write("train episode:{}, reward = {}, state count = {}, state = {}\n"
-                                .format(episode, reward, len(state_human), state_human))
-                        print(" episode:{}, reward = {}, state count = {}, state:{}".format(
-                            episode, reward, len(state_human), state_human))
-                        if action != len(state):
-                            agent.stop_episode_and_train(state, reward, terminal)
-                        else:
-                            agent.stop_episode()
-                        episode_reward.append(reward)
-                        if (episode + 1) % 10 == 0 and episode != 0:
-                            evaluate(env, agent, (episode + 1) / 10)
+                    state_human = [i + 1 for i in range(len(state)) if state[i] == 1]
+                    utils.log(args.result_file, "train episode:{}, reward = {}, state count = {}, state = {}\n"
+                              .format(episode, reward, len(state_human), state_human))
+                    if action != len(state):
+                        agent.stop_episode_and_train(state, reward, terminal)
+                    else:
+                        agent.stop_episode()
+
+                    episode_reward.append(reward)
+                    if (episode + 1) % 10 == 0 and episode != 0:
+                        evaluate(env, agent, (episode + 1) / 10)
 
     def create_agent(env):
         state_size = env.state_size
@@ -185,8 +171,7 @@ def main():
         env = Env.MyEnv(feature_number, feature_max_count, data, classifier)
         agent = create_agent(env)
         train_agent(env, agent)
-
-        # evaluate(env, agent)
+        evaluate(env, agent, "final")
 
         return env, agent
 
@@ -200,10 +185,8 @@ def main():
     average_reward = average_reward / len(episode_reward)
 
     # 写入文件的最后一行
-    with open(args.result_file, 'a') as f:
-        f.write(
-            "The max reward of this train:{}, the average reward of this train:{}\n"
-                .format(max_reward, average_reward))
+    utils.log(args.result_file, "The max reward of this train:{}, the average reward of this train:{}"
+              .format(max_reward, average_reward))
 
 
 if __name__ == '__main__':
@@ -211,7 +194,5 @@ if __name__ == '__main__':
     main()
     # 统计训练用时，保留两位小数
     elapsed = (round((time.time() - start_time) / 3600, 2))
-    print("Training elapsed: {} hours".format(elapsed))
     # 训练时间
-    with open(args.result_file, 'a') as f:
-        f.write("Training elapsed:{} hours".format(elapsed))
+    utils.log(args.result_file, "Training elapsed:{} hours".format(elapsed))
