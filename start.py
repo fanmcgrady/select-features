@@ -98,7 +98,7 @@ def main():
                     state_human = [i + 1 for i in range(len(state)) if state[i] == 1]
                     utils.log(args.result_file,
                               "--------------------------------------------------------------------------------------------------\n"
-                              "evaluate episode:{}, reward = {}, state count = {}, state = {}"
+                              "evaluate episode:{}, reward = {}, state count = {}, state = {}\n"
                               "-------------------------------------------------------------------------------------------------\n"
                               .format(current, reward, len(state_human), state_human))
 
