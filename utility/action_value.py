@@ -47,7 +47,7 @@ class DiscreteActionValue(ActionValue):
             # print("action:", action)
 
             # 设置规则降低q_value，防止盯着一个动作选
-            if action != len(self.state) and self.state[action] == 1:
+            if action != len(self.state) and self.state[0][action] == 1:
                 data[0][action] = -100000
             else:
                 break
