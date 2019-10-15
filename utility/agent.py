@@ -20,7 +20,13 @@ class DoubleDQN(double_dqn.DoubleDQN):
             with chainer.no_backprop_mode():
                 action_value = self.model(
                     self.batch_states([state], self.xp, self.phi))
-                action_value.load_state(state)
+
+                # 设置当前状态的state，保证在action_value选取动作的时候考虑一下目前已经选了的state
+                # 此处不能直接写action_value.load_current_state(state)
+                # 应该使用self.batch_states，保证在CPU和GPU中都能使用
+                action_value.load_current_state(
+                    self.batch_states([state], self.xp, self.phi)
+                )
                 q = float(action_value.max.data)
                 action = cuda.to_cpu(action_value.greedy_actions_with_state.data)[0]
 
@@ -41,7 +47,13 @@ class DoubleDQN(double_dqn.DoubleDQN):
             with chainer.no_backprop_mode():
                 action_value = self.model(
                     self.batch_states([state], self.xp, self.phi))
-                action_value.load_state(state)
+
+                # 设置当前状态的state，保证在action_value选取动作的时候考虑一下目前已经选了的state
+                # 此处不能直接写action_value.load_current_state(state)
+                # 应该使用self.batch_states，保证在CPU和GPU中都能使用
+                action_value.load_current_state(
+                    self.batch_states([state], self.xp, self.phi)
+                )
                 q = float(action_value.max.data)
                 greedy_action = cuda.to_cpu(action_value.greedy_actions_with_state.data)[
                     0]
@@ -121,7 +133,7 @@ class DoubleDQN(double_dqn.DoubleDQN):
                 action_value = self.model(
                     self.batch_states([state], self.xp, self.phi))
                 # print(action_value.q_values)
-                action_value.load_state(state)
+                action_value.load_current_state(state)
                 q = float(action_value.max.data)
                 # print("q is {}".format(q))
                 greedy_action = cuda.to_cpu(action_value.greedy_actions.data)[

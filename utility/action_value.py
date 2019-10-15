@@ -90,7 +90,7 @@ class DiscreteActionValue(ActionValue):
     def compute_expectation(self, beta):
         return F.sum(F.softmax(beta * self.q_values) * self.q_values, axis=1)
 
-    def load_state(self, state):
+    def load_current_state(self, state):
         self.state = state
 
     def __repr__(self):
