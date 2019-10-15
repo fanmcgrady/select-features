@@ -91,7 +91,7 @@ def main():
             count = 0
             while not terminal:
                 action, q = agent.act(state)
-                if action != len(state): count += 1
+                count += 1
                 state, reward, terminal = env.step(action)
 
                 if terminal:
@@ -102,6 +102,8 @@ def main():
                               "-------------------------------------------------------------------------------------------------\n"
                               .format(current, reward, len(state_human), state_human))
 
+                    agent.stop_episode()
+
     def train_agent(env, agent):
         for episode in range(MAX_EPISODE):
             state = env.reset()
@@ -111,8 +113,7 @@ def main():
             while not terminal:
                 action, q, ga = agent.act_and_train(
                     state, reward)  # 此处action是否合法（即不能重复选取同一个指标）由agent判断。env默认得到的action合法。
-                if action != len(state): count += 1
-                action = int(action)
+                count += 1
                 state, reward, terminal = env.step(action)
                 # print("episode:{}, action:{}, greedy action:{}, reward = {}".format(episode, action, ga, reward))
 
@@ -120,11 +121,8 @@ def main():
                     state_human = [i + 1 for i in range(len(state)) if state[i] == 1]
                     utils.log(args.result_file, "train episode:{}, reward = {}, state count = {}, state = {}"
                               .format(episode, reward, len(state_human), state_human))
-                    if action != len(state):
-                        agent.stop_episode_and_train(state, reward, terminal)
-                    else:
-                        agent.stop_episode()
 
+                    agent.stop_episode_and_train(state, reward, terminal)
                     episode_reward.append(reward)
                     if (episode + 1) % 10 == 0 and episode != 0:
                         evaluate(env, agent, (episode + 1) / 10)

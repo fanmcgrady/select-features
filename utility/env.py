@@ -11,7 +11,8 @@ from utility import reward as cls
 class MyEnv:
     def __init__(self, state_size, max, data, classifier):
         self.state_size = state_size
-        self.action_size = state_size + 1  # 包含一个终止动作
+        self.action_size = state_size  # 包含一个终止动作
+        # self.action_size = state_size + 1  # 包含一个终止动作
         self.max = max  # 最多选取max个特征，超出直接终止
         self.data = data
         self.classifier = classifier
