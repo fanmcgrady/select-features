@@ -118,7 +118,7 @@ def main():
 
                 if terminal:
                     state_human = [i + 1 for i in range(len(state)) if state[i] == 1]
-                    utils.log(args.result_file, "train episode:{}, reward = {}, state count = {}, state = {}\n"
+                    utils.log(args.result_file, "train episode:{}, reward = {}, state count = {}, state = {}"
                               .format(episode, reward, len(state_human), state_human))
                     if action != len(state):
                         agent.stop_episode_and_train(state, reward, terminal)
