@@ -84,15 +84,15 @@ def main():
 
             return ActionValue.DiscreteActionValue(x)
 
-    def evaluate(env, agent, current):
+    def evaluate(eval_env, agent, current):
         for i in range(1):
-            state = env.reset()
+            state = eval_env.reset()
             terminal = False
             count = 0
             while not terminal:
                 action, q = agent.act(state)
                 count += 1
-                state, reward, terminal = env.step(action)
+                state, reward, terminal = eval_env.step(action)
 
                 if terminal:
                     state_human = [i + 1 for i in range(len(state)) if state[i] == 1]
@@ -104,7 +104,7 @@ def main():
 
                     agent.stop_episode()
 
-    def train_agent(env, agent):
+    def train_agent(env, agent, eval_env):
         for episode in range(MAX_EPISODE):
             state = env.reset()
             terminal = False
@@ -125,7 +125,7 @@ def main():
                     agent.stop_episode_and_train(state, reward, terminal)
                     episode_reward.append(reward)
                     if (episode + 1) % 10 == 0 and episode != 0:
-                        evaluate(env, agent, (episode + 1) / 10)
+                        evaluate(eval_env, agent, (episode + 1) / 10)
 
     def create_agent(env):
         state_size = env.state_size
@@ -166,10 +166,13 @@ def main():
         return agent
 
     def train():
+        # 训练时使用
         env = Env.MyEnv(feature_number, feature_max_count, data, classifier)
+        # 测试时使用
+        eval_env = Env.MyEnv(feature_number, feature_max_count, data, classifier, test=True)
         agent = create_agent(env)
-        train_agent(env, agent)
-        evaluate(env, agent, "final")
+        train_agent(env, agent, eval_env)
+        evaluate(eval_env, agent, "final")
 
         return env, agent
 

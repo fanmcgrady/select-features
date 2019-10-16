@@ -9,14 +9,19 @@ from utility import reward as cls
 
 # 自己构建的环境
 class MyEnv:
-    def __init__(self, state_size, max, data, classifier):
+    def __init__(self, state_size, max, data, classifier, test=False):
         self.state_size = state_size
-        self.action_size = state_size  # 包含一个终止动作
-        # self.action_size = state_size + 1  # 包含一个终止动作
+
         self.max = max  # 最多选取max个特征，超出直接终止
         self.data = data
         self.classifier = classifier
         self.dict = {}
+        self.test = test  # 是否为测试
+
+        if self.test:
+            self.action_size = state_size  # 测试时选够max个指标，不要包含终止动作
+        else:
+            self.action_size = state_size + 1  # 包含一个终止动作
 
         self.reset()
 
@@ -28,18 +33,13 @@ class MyEnv:
         return action
 
     def step(self, action_index):
-        # if action_index == self.action_size - 1:  # 终止
-        #     self.done = True
-        # else:
-        #     self.state[action_index] = 1
-        #     self.count += 1
-        #     if self.count == self.max_count:  # 已经到达选择数量上线
-        #         self.done = True
-
-        self.state[action_index] = 1
-        self.count += 1
-        if self.count == self.max_count:  # 已经到达选择数量上线
+        if action_index == self.action_size - 1 and not self.test:  # 终止
             self.done = True
+        else:
+            self.state[action_index] = 1
+            self.count += 1
+            if self.count == self.max_count:  # 已经到达选择数量上线
+                self.done = True
 
             # reward 默认为0
             # if current_count>self.max:
