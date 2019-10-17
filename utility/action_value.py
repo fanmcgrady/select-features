@@ -48,7 +48,8 @@ class DiscreteActionValue(ActionValue):
 
             # 设置规则降低q_value，防止盯着一个动作选
             if action != len(self.state) and self.state[0][action] == 1:
-                data[0][action] = -100000
+                data[0][action] /= 2
+                # data[0][action] = -100000
             else:
                 break
         # if action == len(self.state):
