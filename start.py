@@ -13,7 +13,7 @@ from utility import env as Env, agent as DDQN, action_value as ActionValue
 from utility.reward import Classifier
 
 # linux命令行使用，复制以下命令即可执行
-# nohup python start.py --result-file KNN_10feature_64_plus_32.txt --max-feature 10 --gpu 1 --trainging-data training_data_4grams.csv --layer1-nodenum 64 --layer2-nodenum 32>training_log.txt 2>&1 &
+# nohup python start.py --result-file KNN_10feature_64_plus_32.txt --max-feature 10 --gpu 1 --layer1-nodenum 64 --layer2-nodenum 32>training_log.txt 2>&1 &
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--result-file', type=str, default='result.txt')
