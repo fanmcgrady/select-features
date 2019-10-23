@@ -99,7 +99,7 @@ def evaluate(eval_env, agent, current):
                 state_human = [i + 1 for i in range(len(state)) if state[i] == 1]
                 evaluate_reward.append(reward)
                 utils.log(args.result_file,
-                          "evaluate episode:{}, reward = {}, state count = {}, state = {}\n"
+                          "evaluate episode:{}, reward = {}, state count = {}, state = {}"
                           .format(current, reward, len(state_human), state_human))
 
                 agent.stop_episode()
