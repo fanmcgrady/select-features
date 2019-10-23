@@ -55,7 +55,7 @@ class DoubleDQN(double_dqn.DoubleDQN):
                     self.batch_states([state], self.xp, self.phi)
                 )
                 q = float(action_value.max.data)
-                greedy_action = cuda.to_cpu(action_value.greedy_actions.data)[
+                greedy_action = cuda.to_cpu(action_value.greedy_actions_with_state.data)[
                     0]
 
         # Update stats
