@@ -54,9 +54,9 @@ class QFunction(chainer.Chain):
         inpdim = obs_size
         for i, n_hid in enumerate(n_hidden_channels):
             net += [('l{}'.format(i), L.Linear(inpdim, n_hid))]
-            net += [('norm{}'.format(i), L.BatchNormalization(n_hid))]
+            # net += [('norm{}'.format(i), L.BatchNormalization(n_hid))]
             net += [('_act{}'.format(i), F.relu)]
-            net += [('_dropout{}'.format(i), F.dropout)]
+            # net += [('_dropout{}'.format(i), F.dropout)]
             inpdim = n_hid
 
         net += [('output', L.Linear(inpdim, n_actions))]
