@@ -54,7 +54,7 @@ class QFunction(chainer.Chain):
         inpdim = obs_size
         for i, n_hid in enumerate(n_hidden_channels):
             net += [('l{}'.format(i), L.Linear(inpdim, n_hid))]
-            # net += [('norm{}'.format(i), L.BatchNormalization(n_hid))]
+            net += [('norm{}'.format(i), L.BatchNormalization(n_hid))]
             net += [('_act{}'.format(i), F.relu)]
             net += [('_dropout{}'.format(i), F.dropout)]
             inpdim = n_hid
@@ -119,7 +119,7 @@ def train_agent(env, agent, eval_env):
             # print("episode:{}, action:{}, greedy action:{}, reward = {}".format(episode, action, ga, reward))
 
             if terminal:
-                state_human = [i + 1 for i in range(len(state)) if state[i] == 1]
+                # state_human = [i + 1 for i in range(len(state)) if state[i] == 1]
                 # utils.log(args.result_file, "train episode:{}, reward = {}, state count = {}, state = {}"
                 #           .format(episode, reward, len(state_human), state_human))
 
