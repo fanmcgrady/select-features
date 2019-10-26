@@ -9,13 +9,16 @@ if __name__ == '__main__':
     for i in range(204):
         state.append(1)
 
+    for i in range(400):
+        state.append(0)
+
     print(reward.get_reward(state, data, Classifier.KNN))
     print(reward.get_reward(state, data, Classifier.RandomForest))
     print(reward.get_reward(state, data, Classifier.DT))
     print(reward.get_reward(state, data, Classifier.GaussianNB))
     print(reward.get_reward(state, data, Classifier.SVC))
 
-    # 我们的
+    # 我们的604
     # KNN   0.9931619900966753
     # RandomForest  0.9992926196651734
     # DT    0.9974062721056355
@@ -33,9 +36,9 @@ if __name__ == '__main__':
 
     # Kim
 
-    # 白师兄
-    # KNN   0.9450601273284602
-    # RandomForest  0.9983494458854044
-    # DT    0.996934685215751
-    # GNB   0.4402263617071445
-    # SVC   0.7948597029002594
+    # 白师兄204
+    # KNN   0.9931619900966753
+    # RandomForest  0.9992926196651734
+    # DT    0.99787785899552
+    # GNB   0.5699127564253714
+    # SVC
