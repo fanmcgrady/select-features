@@ -2,7 +2,8 @@ from utility import reward
 from utility.reward import Classifier
 
 if __name__ == '__main__':
-    data = "comparation/paper1.csv"
+    data = "data/training_data_4grams.csv"
+    # data = "comparation/paper1.csv"
     state = []
 
     for i in range(204):
@@ -33,3 +34,8 @@ if __name__ == '__main__':
     # Kim
 
     # 白师兄
+    # KNN   0.9450601273284602
+    # RandomForest  0.9983494458854044
+    # DT    0.996934685215751
+    # GNB   0.4402263617071445
+    # SVC   0.7948597029002594
