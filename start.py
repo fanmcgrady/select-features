@@ -136,7 +136,7 @@ def create_agent(env):
 
     start_epsilon = 1.
     end_epsilon = 0.3
-    decay_steps = 4000
+    decay_steps = feature_max_count * MAX_EPISODE / 2
     explorer = explorers.LinearDecayEpsilonGreedy(
         start_epsilon, end_epsilon, decay_steps,
         env.random_action)
