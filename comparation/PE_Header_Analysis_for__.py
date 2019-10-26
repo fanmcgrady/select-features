@@ -80,7 +80,7 @@ def extract(file):
             list2.append(0)
         features.extend(list2)
 
-    print(len(features))
+    # print(len(features))
     assert len(features) == 87
 
     return features
