@@ -284,7 +284,6 @@ def generate_data_paper1():
         except:
             print("ERROR: {}".format(f))
         features.append(1)
-        if len(features) != 111: print("{}: {}".format(len(features), f))
         data.append(features)
 
     files = os.listdir(BENI_PATH)
@@ -297,7 +296,6 @@ def generate_data_paper1():
         except:
             print("ERROR: {}".format(f))
         features.append(0)
-        if len(features) != 111: print("{}: {}".format(len(features), f))
         data.append(features)
     # return data
     save_csv('data/paper1.csv', data)
