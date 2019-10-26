@@ -4,6 +4,7 @@ import os
 import pefile
 
 import extract_parser_features
+from comparation import PE_Header_Analysis_for__ as paper2
 from comparation import selecting_features_to__ as paper1
 from utility import reward
 
@@ -298,4 +299,36 @@ def generate_data_paper1():
         features.append(0)
         data.append(features)
     # return data
-    save_csv('data/paper1.csv', data)
+    save_csv('comparation/paper1.csv', data)
+
+
+# 生成《PE Header Analysis for Malware Detection》87个指标
+def generate_data_paper2():
+    features = []
+    data = []
+
+    files = os.listdir(MAL_PATH)
+    count = 1
+    for f in files:
+        if count % 100 == 0: print("malicious: {}".format(count))
+        count += 1
+        try:
+            features = paper2.extract(MAL_PATH + "/" + f)
+        except:
+            print("ERROR: {}".format(f))
+        features.append(1)
+        data.append(features)
+
+    files = os.listdir(BENI_PATH)
+    count = 1
+    for f in files:
+        if count % 100 == 0: print("benign: {}".format(count))
+        count += 1
+        try:
+            features = paper2.extract(BENI_PATH + "/" + f)
+        except:
+            print("ERROR: {}".format(f))
+        features.append(0)
+        data.append(features)
+    # return data
+    save_csv('comparation/paper2.csv', data)
