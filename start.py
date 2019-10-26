@@ -1,11 +1,11 @@
 import argparse
 import os
+import time
 
 import chainer
 import chainer.functions as F
 import chainer.links as L
 import numpy as np
-import time
 from chainer import optimizers
 from chainerrl import replay_buffer, explorers
 
@@ -136,7 +136,7 @@ def create_agent(env):
 
     start_epsilon = 1.
     end_epsilon = 0.3
-    decay_steps = 2000
+    decay_steps = 4000
     explorer = explorers.LinearDecayEpsilonGreedy(
         start_epsilon, end_epsilon, decay_steps,
         env.random_action)
