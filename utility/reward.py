@@ -7,7 +7,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 
-from utils import load_csv
+import utils
 
 
 # 分类器方法枚举类，可以在这里添加其他方法
@@ -24,7 +24,7 @@ def get_reward(state,  # state: 标记指标是否选取的数组
 
     count = len(state)  # 本次选的指标数目
 
-    data = load_csv(data_path)
+    data = utils.load_csv(data_path)
 
     for i in reversed(range(len(state) - 1)):
         if state[i] == 0:

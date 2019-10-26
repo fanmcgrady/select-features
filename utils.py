@@ -4,6 +4,8 @@ import os
 import pefile
 
 import extract_parser_features
+from comparation import selecting_features_to__ as paper1
+from utility import reward
 
 MAL_PATH = "samples/malicious"
 BENI_PATH = "samples/benign"
@@ -90,10 +92,10 @@ def get_features_reward(data_path, feature_index_array):
     for j in feature_index_array:
         state[j] = 1
 
-    return classifier.get_reward(state, data_path)
+    return reward.get_reward(state, data_path)
 
 
-# 生成样本文件
+# 生成format样本文件
 def generate_data():
     features = []
     data = []
@@ -265,3 +267,37 @@ def log(logfile, str):
     # 训练时间
     with open(logfile, 'a') as f:
         f.write(str + "\n")
+
+
+# 生成《Selecting Features to Classify Malware》7个指标
+def generate_data_paper1():
+    features = []
+    data = []
+
+    files = os.listdir(MAL_PATH)
+    count = 1
+    for f in files:
+        if count % 100 == 0: print("malicious: {}".format(count))
+        count += 1
+        try:
+            features = paper1.extract(MAL_PATH + "/" + f)
+        except:
+            print("ERROR: {}".format(f))
+        features.append(1)
+        if len(features) != 111: print("{}: {}".format(len(features), f))
+        data.append(features)
+
+    files = os.listdir(BENI_PATH)
+    count = 1
+    for f in files:
+        if count % 100 == 0: print("benign: {}".format(count))
+        count += 1
+        try:
+            features = paper1.extract(BENI_PATH + "/" + f)
+        except:
+            print("ERROR: {}".format(f))
+        features.append(0)
+        if len(features) != 111: print("{}: {}".format(len(features), f))
+        data.append(features)
+    # return data
+    save_csv('data/paper1.csv', data)
