@@ -8,4 +8,6 @@ for i in range(204):
     ngrams_list.append(0)
 for key in top_feature_dict.keys():
     ngrams_list.append(key)
+print(ngrams_list)
 print(len(ngrams_list))
+
