@@ -10,4 +10,5 @@ for key in top_feature_dict.keys():
     ngrams_list.append(key)
 print(ngrams_list)
 print(len(ngrams_list))
-
+with open('exper.txt', 'w') as f:
+    f.write(str(ngrams_list))
